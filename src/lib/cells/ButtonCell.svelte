@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';	
+	import { createEventDispatcher } from 'svelte';
 
-	import { Button } from 'flowbite-svelte';	
+	import { Button } from 'flowbite-svelte';
 
 	import type { ColumnConfig } from '../common.ts';
 
@@ -15,8 +15,10 @@
 		dispatch('click', {
 			column,
 			item,
-		})
-	}
+		});
+	};
 </script>
 
-<Button {...$$props} on:click={buttonClicked}>{#if caption}{caption}{/if}</Button>
+<Button {...$$props} on:click={buttonClicked}
+	>{#if caption}{caption}{/if}</Button
+>

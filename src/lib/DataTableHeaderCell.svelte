@@ -2,8 +2,8 @@
 	import { TableHeadCell } from 'flowbite-svelte';
 	import { ArrowDownSolid, ArrowUpSolid } from 'flowbite-svelte-icons';
 
-	import type { InternalColumnConfig } from './common.ts'
-	import { joinClasses} from './common.ts'
+	import type { InternalColumnConfig } from './common.ts';
+	import { joinClasses } from './common.ts';
 
 	export let column: InternalColumnConfig;
 	export let reverseSort: boolean;
@@ -17,9 +17,9 @@
 >
 	{#if isSorted}
 		{#if reverseSort}
-		<ArrowUpSolid class="inline"/>
+			<ArrowUpSolid class="inline" />
 		{:else}
-		<ArrowDownSolid class="inline"/>
+			<ArrowDownSolid class="inline" />
 		{/if}
 	{/if}
 	<span>{column.title}</span>

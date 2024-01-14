@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';	
+	import { createEventDispatcher } from 'svelte';
 
 	import { NumberInput } from 'flowbite-svelte';
 	import type { ColumnConfig } from '../common.ts';
@@ -12,7 +12,7 @@
 	let internalValue: number;
 
 	$: internalValue = value;
-	
+
 	const dispatch = createEventDispatcher();
 
 	const dispatchCellChanged = () => {
@@ -22,11 +22,11 @@
 				item,
 				oldValue: value,
 				newValue: internalValue,
-			})
+			});
 		}
-	}
+	};
 
-	const keypress = async(event: KeyboardEvent) => {
+	const keypress = async (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
 			dispatch('enterPressed', {
 				column,
@@ -34,25 +34,25 @@
 			});
 			dispatchCellChanged();
 		}
-	}
+	};
 
 	const prevTab = (_event: any) => {
 		dispatch('prevTab', {
 			column,
 			item,
-		})
+		});
 		dispatchCellChanged();
-	}
+	};
 
 	const nextTab = (_event: any) => {
 		dispatch('nextTab', {
 			column,
 			item,
-		})		
+		});
 		dispatchCellChanged();
-	}
+	};
 </script>
 
 <TabWrapper on:prevTab={prevTab} on:nextTab={nextTab}>
-	<NumberInput bind:value={internalValue} {...$$props} on:keypress={keypress} autofocus/>
+	<NumberInput bind:value={internalValue} {...$$props} on:keypress={keypress} autofocus />
 </TabWrapper>

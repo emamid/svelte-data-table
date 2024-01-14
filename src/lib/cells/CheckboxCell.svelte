@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';	
+	import { createEventDispatcher } from 'svelte';
 
-	import { Checkbox } from 'flowbite-svelte';	
+	import { Checkbox } from 'flowbite-svelte';
 
 	import type { ColumnConfig } from '../common.ts';
 
@@ -20,8 +20,10 @@
 			item,
 			oldValue: value,
 			newValue: localValue,
-		})
-	}
+		});
+	};
 </script>
 
-<Checkbox {...$$props} bind:checked={localValue} on:change={toggleChanged}>{#if caption}{caption}{/if}</Checkbox>
+<Checkbox {...$$props} bind:checked={localValue} on:change={toggleChanged}
+	>{#if caption}{caption}{/if}</Checkbox
+>

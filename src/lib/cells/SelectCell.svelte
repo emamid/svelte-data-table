@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';	
+	import { createEventDispatcher } from 'svelte';
 
 	import { Select } from 'flowbite-svelte';
 	import type { ColumnConfig } from '../common.ts';
@@ -22,14 +22,14 @@
 			item,
 			oldValue: value,
 			newValue: newValue,
-		})
+		});
 	}
 </script>
 
 <TabWrapper {column} {item} on:prevTab on:nextTab>
 	<Select
 		{...$$props}
-		items={items.map(item => ({ value: item[valueProp], name: item[displayProp]}))}
+		items={items.map((item) => ({ value: item[valueProp], name: item[displayProp] }))}
 		bind:value={newValue}
 		autofocus
 	/>

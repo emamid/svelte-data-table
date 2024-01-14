@@ -10,45 +10,43 @@
 </script>
 
 {#await (column.cellRenderer || defaultCellRenderer)(column, item)}
-<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)}/>
-{:then {dataValue, displayValue}}
-<TableBodyCell tdClass={column.getTDClass(item, dataValue, isCellFocused)} on:click>
-	{#if column.viewComponent}
-	<svelte:component
-		this={column.viewComponent}
-		{column}
-		{item}
-		value={dataValue}
-		on:action
-		on:cellChanged
-		on:cellInput 
-		on:click
-		on:enterPressed
-		on:prevTab
-		on:nextTab
-		{...column.viewComponentConfig}
-	/>
-	{:else}
-		{#if column.focusComponent && isCellFocused}
-		<svelte:component
-			this={column.focusComponent}
-			{column}
-			{item}
-			value={dataValue}
-			on:action
-			on:cellChanged
-			on:cellInput
-			on:click
-			on:enterPressed
-			on:prevTab
-			on:nextTab
-			{...column.focusComponentConfig}
-		/>
+	<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)} />
+{:then { dataValue, displayValue }}
+	<TableBodyCell tdClass={column.getTDClass(item, dataValue, isCellFocused)} on:click>
+		{#if column.viewComponent}
+			<svelte:component
+				this={column.viewComponent}
+				{column}
+				{item}
+				value={dataValue}
+				on:action
+				on:cellChanged
+				on:cellInput
+				on:click
+				on:enterPressed
+				on:prevTab
+				on:nextTab
+				{...column.viewComponentConfig}
+			/>
+		{:else if column.focusComponent && isCellFocused}
+			<svelte:component
+				this={column.focusComponent}
+				{column}
+				{item}
+				value={dataValue}
+				on:action
+				on:cellChanged
+				on:cellInput
+				on:click
+				on:enterPressed
+				on:prevTab
+				on:nextTab
+				{...column.focusComponentConfig}
+			/>
 		{:else}
-		{displayValue}
+			{displayValue}
 		{/if}
-	{/if}	
-</TableBodyCell>
+	</TableBodyCell>
 {:catch}
-<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)} />
+	<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)} />
 {/await}

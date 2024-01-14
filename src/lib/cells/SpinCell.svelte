@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';	
+	import { createEventDispatcher } from 'svelte';
 
 	import { Button } from 'flowbite-svelte';
 	import { MinusSolid, PlusSolid } from 'flowbite-svelte-icons';
@@ -21,14 +21,14 @@
 
 	const dispatch = createEventDispatcher();
 
-	const decrement = () => {		
+	const decrement = () => {
 		dispatch('cellChanged', {
 			column,
 			item,
 			oldValue: value,
-			newValue: (value || 0) - decValue,			
-		})
-	}
+			newValue: (value || 0) - decValue,
+		});
+	};
 
 	const increment = () => {
 		dispatch('cellChanged', {
@@ -36,14 +36,26 @@
 			item,
 			oldValue: value,
 			newValue: (value || 0) + incValue,
-		})
-	}
+		});
+	};
 </script>
 
 <div class="spinner">
-	<Button color="none" class="pr-1" on:click={decrement} disabled={minValue !== undefined && (value - decValue) < minValue}><svelte:component this={minusIcon} class={minusIconClass}/></Button>
+	<Button
+		color="none"
+		class="pr-1"
+		on:click={decrement}
+		disabled={minValue !== undefined && value - decValue < minValue}
+		><svelte:component this={minusIcon} class={minusIconClass} /></Button
+	>
 	{value || 0}
-	<Button color="none" class="pl-1" on:click={increment} disabled={maxValue !== undefined && (value + incValue) > maxValue}><svelte:component this={plusIcon} class={plusIconClass}/></Button>
+	<Button
+		color="none"
+		class="pl-1"
+		on:click={increment}
+		disabled={maxValue !== undefined && value + incValue > maxValue}
+		><svelte:component this={plusIcon} class={plusIconClass} /></Button
+	>
 </div>
 
 <style>

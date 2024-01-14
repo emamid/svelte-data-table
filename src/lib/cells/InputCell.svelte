@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';	
+	import { createEventDispatcher } from 'svelte';
 
 	// TODO: Find out why this is not importing correctly
 	// import type { InputType } from 'flowbite-svelte';
-	
+
 	import { Input } from 'flowbite-svelte';
 	import type { ColumnConfig } from '../common.ts';
 	import TabWrapper from './TabWrapper.svelte';
@@ -16,7 +16,7 @@
 	let internalValue: string;
 
 	$: internalValue = value;
-	
+
 	const dispatch = createEventDispatcher();
 
 	const dispatchCellChanged = () => {
@@ -26,9 +26,9 @@
 				item,
 				oldValue: value,
 				newValue: internalValue,
-			})
+			});
 		}
-	}
+	};
 
 	const keypress = (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
@@ -38,25 +38,31 @@
 			});
 			dispatchCellChanged();
 		}
-	}
+	};
 
 	const prevTab = (_event: any) => {
 		dispatch('prevTab', {
 			column,
 			item,
-		})
+		});
 		dispatchCellChanged();
-	}
+	};
 
 	const nextTab = (_event: any) => {
 		dispatch('nextTab', {
 			column,
 			item,
-		})		
+		});
 		dispatchCellChanged();
-	}
+	};
 </script>
 
 <TabWrapper on:prevTab={prevTab} on:nextTab={nextTab}>
-	<Input type={inputType} bind:value={internalValue} {...$$props} on:keypress={keypress} autofocus/>
+	<Input
+		type={inputType}
+		bind:value={internalValue}
+		{...$$props}
+		on:keypress={keypress}
+		autofocus
+	/>
 </TabWrapper>

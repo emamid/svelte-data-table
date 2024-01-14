@@ -1,2 +1,2 @@
-# svelte-data-grid
-Svelte data grid based on Flowbite Svelte library
+# svelte-data-table
+Svelte data table based on Flowbite Svelte library

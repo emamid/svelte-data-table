@@ -5,7 +5,7 @@
 	// import type { InputType } from 'flowbite-svelte';
 
 	import { Input } from 'flowbite-svelte';
-	import type { ColumnConfig } from '../common.ts';
+	import type { ColumnConfig } from '../common.js';
 	import TabWrapper from './TabWrapper.svelte';
 
 	export let inputType: string = 'text';

@@ -6,6 +6,6 @@ export type {
 	DataCellClassFunction,
 	RowClassFunction,
 	SortFunction,
-} from './common.ts';
-export * from './cells/index.ts';
+} from './common.js';
+export * from './cells/index.js';
 export default DataTable;

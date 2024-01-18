@@ -1,4 +1,4 @@
-export * from './Actions';
+export * from './Actions.js';
 export * from './ActionsCell.svelte';
 export * from './ButtonCell.svelte';
 export * from './CheckboxCell.svelte';

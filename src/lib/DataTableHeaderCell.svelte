@@ -2,8 +2,8 @@
 	import { TableHeadCell } from 'flowbite-svelte';
 	import { ArrowDownSolid, ArrowUpSolid } from 'flowbite-svelte-icons';
 
-	import type { InternalColumnConfig } from './common.ts';
-	import { joinClasses } from './common.ts';
+	import type { InternalColumnConfig } from './common.js';
+	import { joinClasses } from './common.js';
 
 	export let column: InternalColumnConfig;
 	export let reverseSort: boolean;

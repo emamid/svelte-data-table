@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	import { Select } from 'flowbite-svelte';
-	import type { ColumnConfig } from '../common.ts';
+	import type { ColumnConfig } from '../common.js';
 	import TabWrapper from './TabWrapper.svelte';
 
 	export let item: any;

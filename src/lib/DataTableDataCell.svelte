@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { TableBodyCell } from 'flowbite-svelte';
 
-	import type { InternalColumnConfig } from './common.ts';
-	import { defaultCellRenderer } from './common.ts';
+	import type { InternalColumnConfig } from './common.js';
+	import { defaultCellRenderer } from './common.js';
 
 	export let column: InternalColumnConfig;
 	export let item: any;

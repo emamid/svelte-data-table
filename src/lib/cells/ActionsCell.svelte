@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	// TODO: Find out why this is not importing correctly
 	// import type { ButtonColor } from 'flowbite-svelte';
-	import type { ColumnConfig } from '../common.ts';
+	import type { ColumnConfig } from '../common.js';
 
 	type ButtonColor =
 		| 'red'

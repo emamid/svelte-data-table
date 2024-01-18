@@ -3,7 +3,7 @@
 
 	import { Checkbox } from 'flowbite-svelte';
 
-	import type { ColumnConfig } from '../common.ts';
+	import type { ColumnConfig } from '../common.js';
 
 	export let caption: string = '';
 	export let column: ColumnConfig;

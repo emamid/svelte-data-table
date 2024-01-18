@@ -4,7 +4,7 @@
 	import { Button } from 'flowbite-svelte';
 	import { MinusSolid, PlusSolid } from 'flowbite-svelte-icons';
 
-	import type { ColumnConfig } from '../common.ts';
+	import type { ColumnConfig } from '../common.js';
 
 	export let item: any;
 	export let column: ColumnConfig;

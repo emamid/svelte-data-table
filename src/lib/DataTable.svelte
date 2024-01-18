@@ -13,9 +13,9 @@
 		InternalColumnConfig,
 		RowClassFunction,
 		SortFunction,
-	} from './common.ts';
+	} from './common.js';
 
-	import { joinClasses } from './common.ts';
+	import { joinClasses } from './common.js';
 
 	export let columns: ColumnConfig[] = [];
 	export let items: any[] = [];

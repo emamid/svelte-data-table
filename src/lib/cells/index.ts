@@ -1,10 +1,20 @@
 export * from './Actions.js';
 export * from './ActionsCell.svelte';
+export { default as ActionsCell } from './ActionsCell.svelte';
 export * from './ButtonCell.svelte';
+export { default as ButtonCell } from './ButtonCell.svelte';
 export * from './CheckboxCell.svelte';
+export { default as CheckboxCell } from './CheckboxCell.svelte';
 export * from './InputCell.svelte';
+export { default as InputCell } from './InputCell.svelte';
 export * from './NumberInputCell.svelte';
+export { default as NumberInputCell } from './NumberInputCell.svelte';
 export * from './SelectCell.svelte';
+export { default as SelectCell } from './SelectCell.svelte';
 export * from './SpinCell.svelte';
+export { default as SpinCell } from './SpinCell.svelte';
 export * from './TabWrapper.svelte';
+export { default as TabWrapper } from './TabWrapper.svelte';
 export * from './ToggleCell.svelte';
+export { default as ToggleCell } from './ToggleCell.svelte';
+

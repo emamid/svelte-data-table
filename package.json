@@ -1,6 +1,7 @@
 {
 	"name": "@emamid/svelte-data-table",
 	"version": "0.0.3",
+	"homepage": "htts://davidemami.net/",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",
@@ -11,7 +12,8 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"jsdoc": "jsdoc -c jsdoc.json"
 	},
 	"exports": {
 		".": {
@@ -35,12 +37,15 @@
 		"@types/eslint": "8.56.0",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
+		"better-docs": "^2.7.3",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"flowbite": "^2.2.1",
 		"flowbite-svelte": "^0.44.22",
 		"flowbite-svelte-icons": "^1.0.2",
+		"jsdoc": "^4.0.2",
+		"jsdoc-plugin-typescript": "^2.2.1",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"publint": "^0.1.9",

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DataTable, { InputCell, NumberInputCell, SelectCell, } from '@emamid/svelte-data-table';
+	import DataTable, { InputCell, SelectCell, } from '@emamid/svelte-data-table';
 	import type { ColumnConfig } from '@emamid/svelte-data-table';
 	import { characters, classes, races, } from '../../data.js';
 

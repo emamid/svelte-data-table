@@ -69,7 +69,7 @@
 	const sortBySortKey: SortFunction = (a: any, b: any) => {
 		const aValue = a[sortKey];
 		const bValue = b[sortKey];
-		if (typeof aValue === 'string') {
+		if (typeof aValue === 'string' && typeof bValue === 'string') {
 			return aValue.localeCompare(bValue);
 		}
 		if (isFinite(aValue) && isFinite(bValue)) {

@@ -267,7 +267,6 @@
 						on:nextTab={nextTab}
 						on:action
 						on:cellChanged
-						on:cellInput
 					/>
 				{/each}
 			</TableBodyRow>

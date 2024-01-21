@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Home</title>
+  <title> DataTable.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -73,33 +75,89 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p></p>
-                    <h1>Home</h1>
+                    <p>Source</p>
+                    <h1>DataTable.js</h1>
                 </header>
                 
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * The DataTable component
+ * @typedef {object} DataTable
+ * @property {any[]} items
+ * @property {string} [sortKey]
+ * @property {boolean} [reverseSort]
+ * @property {string} [sortColumnID]
+ * @property {string} [itemKey]
+ * @property {string} [divClassAppend]
+ * @property {string} [divClassOverride]
+ * @property {string} [tableClassAppend]
+ * @property {string} [tableClassOverride]
+ * @property {string} [theadClassAppend]
+ * @property {string} [theadClassOverride]
+ * @property {string} [thClassAppend]
+ * @property {string} [thClassOverride]
+ * @property {string} [tableBodyClassAppend]
+ * @property {string} [tableBodyClassOverride]
+ * @property {string} [tdClassAppend]
+ * @property {string} [tdClassOverride]
+ * @property {string} [tdFocusedClassAppend]
+ * @property {string} [tdFocusedClassOverride]
+ * @property {string} [trClassAppend]
+ * @property {string} [trClassOverride]
+ * @fires action
+ * @fires cellChanged
+ * @fires cellClicked
+ * @fires headerClicked
+ * @fires rowClicked
+ */
 
+/**
+ * @event cellClicked
+ * @type {object}
+ * @property {any} detail.item
+ * @property {ColumnConfig} detail.column
+ */
 
-    <h3> </h3>
+/**
+ * @event headerClicked
+ * @type {object}
+ * @property {ColumnConfig} detail.column
+ * @property {string} detail.sortColumnID
+ * @property {string} detail.sortKey
+ * @property {SortFunction} detail.sortFunction
+ * @property {boolean} detail.reverseSort
+ */
 
+/**
+ * @event rowClicked
+ * @type {object}
+ * @property {any} detail.item
+ */
 
+/**
+ * @event action
+ * @type {object}
+ * @property {string} detail.action
+ * @property {any} detail.item
+ * @property {ColumnConfig} detail.column
+ */
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+/**
+ * @event cellChanged
+ * @type {object}
+ * @property {any} detail.item
+ * @property {ColumnConfig} detail.column
+ * @property {any} detail.oldValue
+ * @property {any} detail.newValue
+ */
+</code></pre>
+        </article>
+    </section>
 
 
 

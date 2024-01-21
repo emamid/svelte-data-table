@@ -11,7 +11,7 @@
 		"include": [
 			"src"
 		],
-		"includePattern": ".\\.(js|ts|jsdoc)$",
+		"includePattern": ".\\.(js|ts)$",
 		"excludePattern": "(node_modules/|docs)"
 	},
 	"templates": {
@@ -24,6 +24,6 @@
 		"template": "node_modules/better-docs"
 	},
 	"tags": {
-		"allowUnknownTags": ["optional"]
+		"allowUnknownTags": ["component"]
 	}	
 }

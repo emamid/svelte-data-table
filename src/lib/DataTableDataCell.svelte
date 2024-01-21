@@ -21,7 +21,6 @@
 				value={dataValue}
 				on:action
 				on:cellChanged
-				on:cellInput
 				on:click
 				on:enterPressed
 				on:prevTab
@@ -36,7 +35,6 @@
 				value={dataValue}
 				on:action
 				on:cellChanged
-				on:cellInput
 				on:click
 				on:enterPressed
 				on:prevTab

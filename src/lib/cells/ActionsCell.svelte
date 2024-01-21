@@ -16,6 +16,8 @@
 		| 'alternative'
 		| undefined;
 
+	export type ActionDisablementFunction =	(item: any, column: ColumnConfig, action: Action) => boolean;
+
 	export interface Action {
 		buttonClass?: string;
 		buttonColor?: ButtonColor;
@@ -23,7 +25,7 @@
 		name: string;
 		icon: ConstructorOfATypedSvelteComponent;
 		iconClass?: string;
-		isDisabled?: (item: any, column: ColumnConfig, action: Action) => boolean;
+		isDisabled?: ActionDisablementFunction;
 	}
 </script>
 

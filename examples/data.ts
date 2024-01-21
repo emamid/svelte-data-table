@@ -33,9 +33,9 @@ export const races: Race[] = [
 		id: 4,
 		name: 'Elf',
 	}, {
-		id: 1,
+		id: 5,
 		name: 'Maiar',
-	},
+	}, 
 ];
 
 export const classes: Class[] = [
@@ -110,7 +110,7 @@ export let characters: Character[] = [
 		id: 7,
 		name: 'Boromir',
 		raceID: 1,
-		classID: 6,
+		classID: 2,
 		level: 8,
 		dead: true,
 		fingers: 10,
@@ -126,9 +126,36 @@ export let characters: Character[] = [
 	{
 		id: 9,
 		name: 'Gandalf',
-		raceID: 4,
+		raceID: 5,
 		classID: 4,
 		level: 50,
 		fingers: 10,
-	}
+	},
+	{
+		id: 10,
+		name: 'Sauron',
+		raceID: 5,
+		classID: 4,
+		level: 70,
+		fingers: 9,
+		dead: true,
+	},
+	{
+		id: 11,
+		name: 'Gollum',
+		raceID: 2,
+		classID: 1,
+		level: 6,
+		fingers: 10,
+		dead: true,
+	},
+	{
+		id: 12,
+		name: 'Saruman',
+		raceID: 5,
+		classID: 4,
+		level: 45,
+		fingers: 10,
+		dead: true,
+	},
 ]

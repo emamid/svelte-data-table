@@ -1,7 +1,7 @@
 /**
  * Values for a given column/row, returned by cellRenderer (or the default renderer).
  * @typedef {object} CellValue
- * @property {any} value The data value for the cell.
+ * @property {any} dataValue The data value for the cell.
  * @property {any} [displayValue] The value to be displayed for the cell. If this is not set, value will be used instead.
  */
 export interface CellValue {

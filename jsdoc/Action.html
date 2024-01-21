@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> CellValue</title>
+  <title> Action</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -74,7 +74,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Interface</p>
-                    <h1>CellValue</h1>
+                    <h1>Action</h1>
                 </header>
                 
 
@@ -85,7 +85,7 @@
 
 <header>
     
-        <h2>CellValue</h2>
+        <h2>Action</h2>
         
     
 </header>
@@ -94,7 +94,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Values for a given column/row, returned by cellRenderer (or the default renderer).</div>
+            <div class="description">An action to be displayed inside an ActionCell</div>
         
 
         
@@ -128,42 +128,13 @@
             
 <tr class="deep-level-0">
     
-        <td class="name"><code>value</code></td>
+        <td class="name"><code>buttonClass</code></td>
     
 
     <td class="type">
     
         
-<code class="param-type">any</code>
-
-
-    
-    </td>
-
-    
-        <td class="attributes">
-        
-
-        
-        </td>
-    
-
-    
-
-    <td class="description last">The data value for the cell.</td>
-</tr>
-
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>displayValue</code></td>
-    
-
-    <td class="type">
-    
-        
-<code class="param-type">any</code>
+<code class="param-type">string</code>
 
 
     
@@ -181,7 +152,189 @@
 
     
 
-    <td class="description last">The value to be displayed for the cell. If this is not set, value will be used instead.</td>
+    <td class="description last">Class for the button. If not populated, the cell's buttonClass will be used.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>buttonColor</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">ButtonColor</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last">See <a href="https://flowbite-svelte.com/docs/pages/typescript">https://flowbite-svelte.com/docs/pages/typescript</a>. If not populated, the cell's buttonColor will be used.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>caption</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last">Text displayed with the icon.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>name</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last">Name of the action. Returned as part of the action event on DataGrid when the button is clicked.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>icon</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">ConstructorOfATypedSvelteComponent</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last">Icon to be displayed in the button.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>iconClass</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type">string</code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last">Class for the icon to be displayed in the button. If not populated, the cell's iconClass will be used.</td>
+</tr>
+
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>isDisabled</code></td>
+    
+
+    <td class="type">
+    
+        
+<code class="param-type"><a href="global.html#ActionDisablementFunction">ActionDisablementFunction</a></code>
+
+
+    
+    </td>
+
+    
+        <td class="attributes">
+        
+            &lt;optional><br>
+        
+
+        
+        </td>
+    
+
+    
+
+    <td class="description last">If populated, will be called to check whether the button should be enabled or disabled for each row.</td>
 </tr>
 
         
@@ -224,9 +377,9 @@
 
     
         <p class="tag-source">
-            <a href="common.ts.html" class="button">View Source</a>
+            <a href="cells_ActionsCell.doc.ts.html" class="button">View Source</a>
             <span>
-                <a href="common.ts.html">common.ts</a>, <a href="common.ts.html#line17">line 17</a>
+                <a href="cells_ActionsCell.doc.ts.html">cells/ActionsCell.doc.ts</a>, <a href="cells_ActionsCell.doc.ts.html#line10">line 10</a>
             </span>
         </p>
     

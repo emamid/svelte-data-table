@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> CellValue</title>
+  <title> cells/Actions.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -73,192 +75,143 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Interface</p>
-                    <h1>CellValue</h1>
+                    <p>Source</p>
+                    <h1>cells/Actions.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        <h2>CellValue</h2>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+	ArrowDownSolid,
+	ArrowUpSolid,
+	BellActiveOutline,
+	BookmarkOutline,
+	CogOutline,
+	EditOutline,
+	HeartSolid,
+	InfoCircleOutline,
+	ShareNodesOutline,
+	TrashBinOutline,
+} from 'flowbite-svelte-icons';
 
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">Values for a given column/row, returned by cellRenderer (or the default renderer).</div>
-        
+import type { Action } from './ActionsCell.svelte';
 
-        
+/**
+ * @constant bookmarkAction
+ * @type {Action}
+ * @property {string} name - bookmark
+ * @property {ConstructorOfATypedSvelteComponent} icon - BookmarkOutline
+*/
+export const bookmarkAction: Action = {
+	icon: BookmarkOutline,
+	name: 'bookmark',
+};
 
+/**
+ * @constant deleteAction
+ * @type {Action}
+ * @property {string} name - delete
+ * @property {ConstructorOfATypedSvelteComponent} icon - TrashBinOutline
+*/
+export const deleteAction: Action = {
+	icon: TrashBinOutline,
+	name: 'delete',
+};
 
-    <h5 class="subsection-title">Properties:</h5>
+/**
+ * @constant downAction
+ * @type {Action}
+ * @property {string} name - down
+ * @property {ConstructorOfATypedSvelteComponent} icon - ArrowDownSolid
+*/
+export const downAction: Action = {
+	icon: ArrowDownSolid,
+	name: 'down',
+};
 
-    
-<div class="table-container">
-    <table class="props table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
+/**
+ * @constant editAction
+ * @type {Action}
+ * @property {string} name - edit
+ * @property {ConstructorOfATypedSvelteComponent} icon - EditOutline
+*/
+export const editAction: Action = {
+	icon: EditOutline,
+	name: 'edit',
+};
 
-            <th>Type</th>
+/**
+ * @constant favoriteAction
+ * @type {Action}
+ * @property {string} name - favorite
+ * @property {ConstructorOfATypedSvelteComponent} icon - HeartSolid
+*/
+export const favoriteAction: Action = {
+	icon: HeartSolid,
+	name: 'favorite',
+};
 
-            
-            <th>Attributes</th>
-            
+/**
+ * @constant infoAction
+ * @type {Action}
+ * @property {string} name - info
+ * @property {ConstructorOfATypedSvelteComponent} icon - InfoCircleOutline
+*/
+export const infoAction: Action = {
+	icon: InfoCircleOutline,
+	name: 'info',
+};
 
-            
+/**
+ * @constant notificationAction
+ * @type {Action}
+ * @property {string} name - notification
+ * @property {ConstructorOfATypedSvelteComponent} icon - BellActiveOutline
+*/
+export const notificationAction: Action = {
+	icon: BellActiveOutline,
+	name: 'notification',
+};
 
-            <th class="last">Description</th>
-        </tr>
-        </thead>
+/**
+ * @constant settingsAction
+ * @type {Action}
+ * @property {string} name - settings
+ * @property {ConstructorOfATypedSvelteComponent} icon - CogOutline
+*/
+export const settingsAction: Action = {
+	icon: CogOutline,
+	name: 'settings',
+};
 
-        <tbody>
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>value</code></td>
-    
+/**
+ * @constant shareAction
+ * @type {Action}
+ * @property {string} name - share
+ * @property {ConstructorOfATypedSvelteComponent} icon - ShareNodesOutline
+*/
+export const shareAction: Action = {
+	icon: ShareNodesOutline,
+	name: 'share',
+};
 
-    <td class="type">
-    
-        
-<code class="param-type">any</code>
-
-
-    
-    </td>
-
-    
-        <td class="attributes">
-        
-
-        
-        </td>
-    
-
-    
-
-    <td class="description last">The data value for the cell.</td>
-</tr>
-
-        
-            
-<tr class="deep-level-0">
-    
-        <td class="name"><code>displayValue</code></td>
-    
-
-    <td class="type">
-    
-        
-<code class="param-type">any</code>
-
-
-    
-    </td>
-
-    
-        <td class="attributes">
-        
-            &lt;optional><br>
-        
-
-        
-        </td>
-    
-
-    
-
-    <td class="description last">The value to be displayed for the cell. If this is not set, value will be used instead.</td>
-</tr>
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="common.ts.html" class="button">View Source</a>
-            <span>
-                <a href="common.ts.html">common.ts</a>, <a href="common.ts.html#line17">line 17</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+/**
+ * @constant upAction
+ * @type {Action}
+ * @property {string} name - up
+ * @property {ConstructorOfATypedSvelteComponent} icon - UpArrowSolid
+*/
+export const upAction: Action = {
+	icon: ArrowUpSolid,
+	name: 'up',
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -1,5 +1,5 @@
 /**
- * The DataTable component
+ * The DataTable component based on https://flowbite-svelte.com/docs/components/table
  * @typedef {object} DataTable
  * @property {ColumnConfig[]} columns
  * @property {any[]} items

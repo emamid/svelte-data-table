@@ -11,8 +11,8 @@
 	const columns: ColumnConfig[] = [
 		{
 			title: 'Actions',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
+			thClassAppend: 'text-left w-10',
+			tdClassAppend: 'w-10',
 			viewComponent: ActionsCell,
 			viewComponentConfig: {
 				actions: [
@@ -38,15 +38,15 @@
 			canSort: true,
 			key: 'dead',
 			title: 'Dead',
-			thClassAppend: 'text-left w-20',
-			tdClassAppend: 'w-20',
+			thClassAppend: 'text-left w-10',
+			tdClassAppend: 'w-10',
 			viewComponent: ToggleCell,
 		},
 		{
 			canSort: true,
 			key: 'fingers',
 			title: 'Fingers',
-			thClassAppend: 'text-left w-20',
+			thClassAppend: 'text-center w-20',
 			tdClassAppend: 'w-20',
 			viewComponent: SpinCell,
 			viewComponentConfig: {
@@ -97,7 +97,6 @@
 		items={characters}
 		itemKey="id"
 		divClassAppend="h-full"
-		theadClassAppend="z-1"
 		on:action={action}
 		on:cellChanged={cellChanged}
 	/>

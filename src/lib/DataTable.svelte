@@ -38,7 +38,7 @@
 
 	export let theadClassAppend: string = '';
 	export let theadClassOverride: string = '';
-	const theadClassDefault = 'text-xs uppercase sticky top-0 z-1';
+	const theadClassDefault = 'text-xs uppercase sticky top-0 z-10';
 
 	export let thClassAppend: string = '';
 	export let thClassOverride: string = '';

@@ -1,6 +1,6 @@
 {
 	"name": "@emamid/svelte-data-table",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"homepage": "htts://davidemami.net/",
 	"scripts": {
 		"dev": "vite dev",

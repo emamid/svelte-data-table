@@ -38,7 +38,7 @@
 
 	export let theadClassAppend: string = '';
 	export let theadClassOverride: string = '';
-	const theadClassDefault = 'text-xs uppercase sticky top-0';
+	const theadClassDefault = 'text-xs uppercase sticky top-0 z-1';
 
 	export let thClassAppend: string = '';
 	export let thClassOverride: string = '';
@@ -239,7 +239,7 @@
 </script>
 
 <Table class={tableClass} {divClass}>
-	<TableHead defaultRow={false} {theadClass}>
+	<TableHead defaultRow={false} class={theadClass}>
 		{#each internalColumns as column}
 			<DataTableHeaderCell
 				{column}

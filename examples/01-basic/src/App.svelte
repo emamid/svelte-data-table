@@ -38,5 +38,6 @@
 	<DataTable
 		{columns}
 		items={characters}
+		divClassAppend="h-full"
 	/>
 </main>

@@ -96,6 +96,8 @@
 		{columns}
 		items={characters}
 		itemKey="id"
+		divClassAppend="h-full"
+		theadClassAppend="z-1"
 		on:action={action}
 		on:cellChanged={cellChanged}
 	/>

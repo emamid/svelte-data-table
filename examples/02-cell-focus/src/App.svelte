@@ -48,6 +48,7 @@
 		{columns}
 		items={characters}
 		itemKey="id"
+		divClassAppend="h-full"
 		on:cellChanged={cellChanged}
 	/>
 </main>

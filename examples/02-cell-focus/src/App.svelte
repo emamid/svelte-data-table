@@ -49,6 +49,7 @@
 		items={characters}
 		itemKey="id"
 		divClassAppend="h-full"
+		sortKey="name"
 		on:cellChanged={cellChanged}
 	/>
 </main>

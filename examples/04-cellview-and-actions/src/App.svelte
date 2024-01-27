@@ -97,6 +97,7 @@
 		items={characters}
 		itemKey="id"
 		divClassAppend="h-full"
+		sortKey="name"
 		on:action={action}
 		on:cellChanged={cellChanged}
 	/>

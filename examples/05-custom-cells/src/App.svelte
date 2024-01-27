@@ -2,8 +2,11 @@
 	import DataTable from '@emamid/svelte-data-table';
 	import type { ColumnConfig } from '@emamid/svelte-data-table';
 	import { characters } from '../../data.js';
+	import BarCell from './BarCell.svelte';
 
-	const columns: ColumnConfig[] = [
+	let maxLevel = characters.reduce((previousMax: number, character) => Math.max(previousMax, character.level || 1), 1);
+
+	let columns: ColumnConfig[] = [
 		{
 			canSort: true,
 			key: 'name',
@@ -13,31 +16,23 @@
 		},
 		{
 			canSort: true,
-			key: 'fingers',
-			title: 'Fingers',
-			tdClassAppend: 'text-right w-32',
-			thClassAppend: 'text-left w-32',
-		},
-		{
-			canSort: true,
 			key: 'level',
 			title: 'Level',
-			tdClassAppend: 'text-right w-28',
-			thClassAppend: 'text-left w-28',
+			thClassAppend: 'text-left w-20',
+			tdClassAppend: 'w-20 py-0',
+			viewComponent: BarCell,
+			viewComponentConfig: {
+				maxValue: maxLevel,
+			}
 		},
-		{
-			key: 'dead',
-			title: 'Dead',
-			tdClassAppend: 'text-right w-10',
-			thClassAppend: 'text-left w-10',
-		}
 	]
 </script>
 
-<main>	
+<main>
 	<DataTable
 		{columns}
 		items={characters}
+		itemKey="id"
 		divClassAppend="h-full"
 		sortKey="name"
 	/>

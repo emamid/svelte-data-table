@@ -1,3 +1,5 @@
+export type Alignment = 'good' | 'evil';
+
 export interface Race {
 	id: number;
 	name: string;
@@ -11,11 +13,12 @@ export interface Class {
 export interface Character {
 	id: number;
 	name: string;
-	raceID: number;
+	alignment: Alignment,
 	classID: number;
-	level: number;
 	dead?: boolean;
 	fingers: number,
+	level: number;
+	raceID: number;
 }
 
 export const races: Race[] = [
@@ -68,6 +71,7 @@ export let characters: Character[] = [
 		classID: 1,
 		level: 6,
 		fingers: 9,
+		alignment: 'good',
 	},
 	{
 		id: 2,
@@ -76,6 +80,7 @@ export let characters: Character[] = [
 		classID: 1,
 		level: 6,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 3,
@@ -84,6 +89,7 @@ export let characters: Character[] = [
 		classID: 1,
 		level: 4,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 4,
@@ -92,6 +98,7 @@ export let characters: Character[] = [
 		classID: 1,
 		level: 3,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 5,
@@ -100,6 +107,7 @@ export let characters: Character[] = [
 		classID: 2,
 		level: 6,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 6,
@@ -108,6 +116,7 @@ export let characters: Character[] = [
 		classID: 1,
 		level: 6,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 7,
@@ -117,6 +126,7 @@ export let characters: Character[] = [
 		level: 8,
 		dead: true,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 8,
@@ -125,6 +135,7 @@ export let characters: Character[] = [
 		classID: 3,
 		level: 10,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 9,
@@ -134,6 +145,7 @@ export let characters: Character[] = [
 		level: 35,
 		dead: true,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 10,
@@ -142,6 +154,7 @@ export let characters: Character[] = [
 		classID: 4,
 		level: 55,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 11,
@@ -151,6 +164,7 @@ export let characters: Character[] = [
 		level: 70,
 		fingers: 9,
 		dead: true,
+		alignment: 'evil',
 	},
 	{
 		id: 12,
@@ -160,6 +174,7 @@ export let characters: Character[] = [
 		level: 6,
 		fingers: 10,
 		dead: true,
+		alignment: 'evil',
 	},
 	{
 		id: 13,
@@ -169,6 +184,7 @@ export let characters: Character[] = [
 		level: 45,
 		fingers: 10,
 		dead: true,
+		alignment: 'evil',
 	},
 	{
 		id: 14,
@@ -178,6 +194,7 @@ export let characters: Character[] = [
 		level: 8,
 		dead: true,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 15,
@@ -186,6 +203,7 @@ export let characters: Character[] = [
 		classID: 3,
 		level: 8,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 16,
@@ -194,6 +212,7 @@ export let characters: Character[] = [
 		classID: 2,
 		level: 7,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 17,
@@ -202,6 +221,7 @@ export let characters: Character[] = [
 		classID: 2,
 		level: 7,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 18,
@@ -211,6 +231,7 @@ export let characters: Character[] = [
 		level: 8,
 		dead: true,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 19,
@@ -220,6 +241,7 @@ export let characters: Character[] = [
 		level: 4,
 		dead: true,
 		fingers: 10,
+		alignment: 'evil',
 	},
 	{
 		id: 20,
@@ -228,6 +250,7 @@ export let characters: Character[] = [
 		classID: 2,
 		level: 3,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 21,
@@ -237,6 +260,7 @@ export let characters: Character[] = [
 		level: 6,
 		dead: true,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 22,
@@ -245,6 +269,7 @@ export let characters: Character[] = [
 		classID: 3,
 		level: 5,
 		fingers: 10,
+		alignment: 'good',
 	},
 	{
 		id: 23,
@@ -254,6 +279,7 @@ export let characters: Character[] = [
 		level: 4,
 		dead: true,
 		fingers: 10,
+		alignment: 'evil',
 	},
 	{
 		id: 24,
@@ -263,6 +289,7 @@ export let characters: Character[] = [
 		level: 6,
 		dead: true,
 		fingers: 10,
+		alignment: 'evil',
 	},
 	{
 		id: 25,
@@ -272,5 +299,6 @@ export let characters: Character[] = [
 		level: 35,
 		dead: true,
 		fingers: 10,
+		alignment: 'evil',
 	},	
 ]

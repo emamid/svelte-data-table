@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 
 	import { Table, TableBody, TableBodyRow, TableHead } from 'flowbite-svelte';
-
+	
 	import DataTableDataCell from './DataTableDataCell.svelte';
 	import DataTableHeaderCell from './DataTableHeaderCell.svelte';
 
@@ -60,6 +60,13 @@
 	export let trClassOverride: string = '';
 	const trClassDefault: string = '';
 	export let trClassGetter: RowClassFunction | null = null;
+
+	export let striped: boolean = false;
+	export let hoverable:	boolean	= false
+	export let noborder: boolean = false;
+	export let shadow: boolean = false;
+	export let color: string = 'default';
+	export let customColor: string = '';
 
 	let sortedItems: any[] = [];
 
@@ -238,7 +245,7 @@
 	};
 </script>
 
-<Table class={tableClass} {divClass}>
+<Table class={tableClass} {divClass} {striped} {hoverable} {noborder} {shadow} {color} {customColor}>
 	<TableHead defaultRow={false} class={theadClass}>
 		{#each internalColumns as column}
 			<DataTableHeaderCell

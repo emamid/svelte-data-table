@@ -21,9 +21,9 @@
 		{
 			key: 'raceID',
 			title: 'Race',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-40 px-4',
+			thClassAppend: 'text-left w-10',
+			tdClassAppend: 'w-10',
+			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
 			focusComponent: SelectCell,
 			focusComponentConfig: {
 				items: races,
@@ -41,9 +41,9 @@
 		{
 			key: 'classID',
 			title: 'Class',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-40 px-4',
+			thClassAppend: 'text-left w-10',
+			tdClassAppend: 'w-10',
+			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
 			focusComponent: SelectCell,
 			focusComponentConfig: {
 				items: classes,

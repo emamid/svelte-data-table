@@ -15,21 +15,21 @@
 			canSort: true,
 			key: 'fingers',
 			title: 'Fingers',
-			tdClassAppend: 'text-right w-32',
-			thClassAppend: 'text-left w-32',
+			tdClassAppend: 'text-right w-10',
+			thClassAppend: 'text-right w-10',
 		},
 		{
 			canSort: true,
 			key: 'level',
 			title: 'Level',
-			tdClassAppend: 'text-right w-28',
-			thClassAppend: 'text-left w-28',
+			tdClassAppend: 'text-right w-10',
+			thClassAppend: 'text-right w-10',
 		},
 		{
 			key: 'dead',
 			title: 'Dead',
-			tdClassAppend: 'text-right w-10',
-			thClassAppend: 'text-left w-10',
+			tdClassAppend: 'text-center w-10',
+			thClassAppend: 'text-center w-10',
 		}
 	]
 </script>

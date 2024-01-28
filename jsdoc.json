@@ -19,7 +19,7 @@
 		"monospaceLinks": true
 	},
 	"opts": {
-		"destination": "./jsdoc",
+		"destination": "./docs",
 		"recurse": true,
 		"template": "node_modules/better-docs"
 	},

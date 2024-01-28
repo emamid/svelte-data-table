@@ -20,7 +20,8 @@
 	},
 	"opts": {
 		"destination": "./docs",
-		"recurse": true,
+		"readme": "README.md",
+		"recurse": true,		
 		"template": "node_modules/better-docs"
 	},
 	"tags": {

@@ -99,6 +99,45 @@
 
 
 
+    <section>
+        <article><h2>Svelte Data Table based on <a href="https://flowbite-svelte.com/">Flowbite Svelte</a>, <a href="https://flowbite.com/icons/">Flowbite Icons</a>, and <a href="https://tailwindcss.com/">Tailwind</a></h2>
+<p>This data table is designed for viewing and editing data in an array of objects. It works in conjunction with the Flowbite Svelte library, with support for custom cell editors, moving focus between cells with tab and enter, column sorting (simple and custom), conditional CSS, and more.</p>
+<h2>Install</h2>
+<p>To add to an existing Svelte app, first install Tailwind if you haven't already:</p>
+<pre class="prettyprint source lang-bash"><code>> npx svelte-add@latest tailwindcss
+</code></pre>
+<p>Then install the Flowbite components and icons along with the data table component.</p>
+<pre class="prettyprint source lang-bash"><code>> npm i flowbite-svelte flowbite flowbite-svelte-icons @emamid/svelte-data-table
+</code></pre>
+<h2>Basic example</h2>
+<pre class="prettyprint source lang-html"><code>&lt;script lang=&quot;ts&quot;>
+  import DataTable from '@emamid/svelte-data-table';
+  import type { ColumnConfig } from '@emamid/svelte-data-table';
+
+  const columns: ColumnConfig[] = [
+    { canSort: true, key: 'firstName', title: 'First Name' },
+    { canSort: true, key: 'lastName', title: 'Last Name' },
+  ];
+
+  const items: any[] = [
+    { firstName: 'Bilbo', lastName: 'Baggins'},
+    { firstName: 'Frodo', lastName: 'Baggins'},
+    { firstName: 'Samwise', lastName: 'Gamgee'},
+    { firstName: 'Meriadoc', lastName: 'Brandybuck'},
+    { firstName: 'Peregrin', lastName: 'Took'},
+  ];
+&lt;/script>
+
+&lt;main>	
+  &lt;DataTable
+    {columns}
+    {items}
+  />
+&lt;/main>
+</code></pre>
+<p>Examples for most of the component's features are under /examples . You can find the documentation <a href="https://emamid.github.io/svelte-data-table/">here</a>.</p></article>
+    </section>
+
 
 
 

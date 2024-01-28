@@ -2,7 +2,7 @@
 
 The Name column has an ```InputCell``` focus component, while the Race and Class columns have ```SelectCell``` focus components. Editing is implemented via the ```cellChanged event```. The Race and Class columns also have ```cellRender``` configs to return the race and class names instead of raceID and cellID, and ```sortFunction``` configs to sort by the names instead of IDs as well.
 
-![](screenshot-03.png)
+![](../../screenshot-03.png)
 
 ## Installation
 

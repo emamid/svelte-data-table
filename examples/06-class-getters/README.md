@@ -2,7 +2,7 @@
 
 Uses ```trClassGetter``` on the ```DataTable``` component to add a red background class (```bg-red-500```) to rows where ```item.alignment === 'evil'```, and ```tdClassGetter``` on the Name column's config to add a strikethrough decorator (```line-through decoration-wavy```) to the name when ```item.dead === true```.
 
-![](screenshot-06.png)
+![](../../screenshot-06.png)
 
 ## Installation
 

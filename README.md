@@ -1,6 +1,6 @@
 ## Svelte Data Table based on [Flowbite Svelte](https://flowbite-svelte.com/), [Flowbite Icons](https://flowbite.com/icons/), and [Tailwind](https://tailwindcss.com/)
 
-This data table is designed for viewing and editing data in an array of objects. It works in conjunction with the Flowbite Svelte library, with support for custom cell editors, moving focus between cells with tab and enter, column sorting (simple and custom), conditional CSS, and more.
+This data table is designed for viewing and editing data in an array of objects. It's built using the Flowbite Svelte library's Table components and works in conjunction with it, with support for custom cell editors, moving focus between cells with tab and enter, column sorting (simple and custom), conditional CSS, and more.
 
 ## Install
 
@@ -45,3 +45,21 @@ Then install the Flowbite components and icons along with the data table compone
 ```
 
 Examples for most of the component's features are under /examples . You can find the documentation [here](https://emamid.github.io/svelte-data-table/).
+
+#### Example 1 - Basic data table
+![Example 1](./screenshot-01.png)
+
+#### Example 2 - Table with cell focus components
+![Example 2](./screenshot-02.png)
+
+#### Example 3 - Table with cell focus Select components, cell renderers, and custom sort
+![Example 3](./screenshot-03.png)
+
+#### Example 4 - Table with actions and cell view components
+![Example 4](./screenshot-04.png)
+
+#### Example 5 - Table with custom cell component
+![Example 5](./screenshot-05.png)
+
+#### Example 6 - Table with cell and row class getter functions
+![Example 6](./screenshot-06.png)

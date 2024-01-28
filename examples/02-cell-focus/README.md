@@ -2,6 +2,8 @@
 
 The Name column has an ```InputCell``` focus component, while the Fingers and Level columns have ```NumberInputCell``` focus components. Editing is implemented via the ```cellChanged``` event. All three columns are sortable.
 
+![](screenshot-02.png)
+
 ## Installation
 
 Install the package dependencies:

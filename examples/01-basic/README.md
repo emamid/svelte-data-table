@@ -2,6 +2,8 @@
 
 Just the basic data table with columns and data items, no in-grid components or conditional/computed CSS.
 
+![](screenshot-01.png)
+
 ## Installation
 
 Install the package dependencies:

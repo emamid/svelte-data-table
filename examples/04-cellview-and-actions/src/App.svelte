@@ -35,6 +35,7 @@
 			canFocus: true,
 		},
 		{
+			canSort: true,
 			key: 'dead',
 			title: 'Dead',
 			thClassAppend: 'text-left w-10',

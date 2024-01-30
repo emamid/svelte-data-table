@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import { Table, TableBody, TableBodyRow, TableHead } from 'flowbite-svelte';
+	import { P, Table, TableBody, TableBodyRow, TableHead } from 'flowbite-svelte';
 	
 	import DataTableDataCell from './DataTableDataCell.svelte';
 	import DataTableHeaderCell from './DataTableHeaderCell.svelte';
@@ -74,14 +74,29 @@
 	let focusedItemKey: any = null;
 
 	const sortBySortKey: SortFunction = (a: any, b: any) => {
-		const aValue = a[sortKey];
-		const bValue = b[sortKey];
+		let aValue = a[sortKey];
+		let bValue = b[sortKey];
+
+		if (aValue === bValue) {
+			return 0;
+		}
+
 		if (typeof aValue === 'string' && typeof bValue === 'string') {
 			return aValue.localeCompare(bValue);
 		}
-		if (isFinite(aValue) && isFinite(bValue)) {
+
+		if (typeof aValue === 'number' && typeof bValue === 'number') {
 			return aValue - bValue;
 		}
+
+		if (typeof aValue === 'number' || typeof bValue === 'number') {
+			return (aValue || 0) - (bValue || 0);
+		}
+
+		if (typeof aValue === 'string' || typeof bValue === 'string') {
+			return (aValue || '').localeCompare(bValue || '');
+		}
+
 		return JSON.stringify(aValue).localeCompare(JSON.stringify(bValue));
 	};
 

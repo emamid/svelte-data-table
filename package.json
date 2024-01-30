@@ -1,7 +1,7 @@
 {
 	"name": "@emamid/svelte-data-table",
-	"version": "0.0.8",
-	"homepage": "htts://davidemami.net/",
+	"version": "0.0.9",
+	"homepage": "https://github.com/emamid/svelte-data-table",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",

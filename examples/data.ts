@@ -295,7 +295,7 @@ export let characters: Character[] = [
 		id: 25,
 		name: 'Balrog',
 		raceID: 5,
-		classID: 1,
+		classID: 2,
 		level: 35,
 		dead: true,
 		fingers: 10,

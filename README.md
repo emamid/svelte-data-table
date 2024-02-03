@@ -63,3 +63,5 @@ Examples for most of the component's features are under /examples . You can find
 
 #### Example 6 - Table with cell and row class getter functions
 ![Example 6](./screenshot-06.png)
+
+#### Kitchen Sink example - All of the above

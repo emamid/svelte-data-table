@@ -7,6 +7,8 @@
  * @property {SortFunction} [sortFunction] - Function for more complex-sorting.
  * @property {boolean} [reverseSort] - True when sorting is reversed.
  * @property {string} [sortColumnID] - The id (or key) property of the column being sorted by.
+ * @property {ConstructorOfATypedSvelteComponent} [sortAscendingIcon] - Svelte component class to be displayed in columns that are sorting ascended. Defaults to AngleDownSolid from {@link https://flowbite.com/icons/}
+ * @property {ConstructorOfATypedSvelteComponent} [sortDescendingIcon] - Svelte component class to be displayed in columns that are sorting descended. Defaults to AngleUpSolid from {@link https://flowbite.com/icons/}
  * @property {string} [itemKey] - Property to use when distinguish between rows. If not populated, the array index is used.
  * @property {EnterAction} [enterAction] - Determines what pressing the enter key in a focused cell does. Can be 'next', 'down', or 'stay'. Default is 'next'. If 'next', enter will act the same as tab. If 'down', focus will move down to the row below the current one. If 'stay', the enter key will not cause movement.
  * @property {string} [divClassAppend] - Classes to be appended to Table.divClass .

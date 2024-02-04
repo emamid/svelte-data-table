@@ -77,6 +77,8 @@ export type SortFunction = (
  * @property {string} [thClassOverride] - Class to replace existing CSS for header cells.
  * @property {boolean} [canFocus] - True if cells in this column can be focused.
  * @property {boolean} [canSort] - If true, clicking the column's header will set sorting to sortFunction or sortKey, or reverse it if already set.
+ * @property {ConstructorOfATypedSvelteComponent} [sortAscendingIcon] - Svelte component class to be displayed in the column is sorting ascended (overrides table).
+ * @property {ConstructorOfATypedSvelteComponent} [sortDescendingIcon] - Svelte component class to be displayed in the column is sorting descended (overrides table).
  * @property {SortFunction} [sortFunction] - Comparison function for complex sorting.
  * @property {string} [sortKey] - Item property to sort by, if sortFunction is not defined.
   */
@@ -100,6 +102,8 @@ export interface ColumnConfig {
 	canSort?: boolean;
 	sortFunction?: SortFunction;
 	sortKey?: string;
+	sortAscendingIcon?: ConstructorOfATypedSvelteComponent;
+	sortDescendingIcon?: ConstructorOfATypedSvelteComponent;
 }
 
 /**

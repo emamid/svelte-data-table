@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import { P, Table, TableBody, TableBodyRow, TableHead } from 'flowbite-svelte';
-	
+	import { Table, TableBody, TableBodyRow, TableHead } from 'flowbite-svelte';
+	import { AngleDownSolid, AngleUpSolid } from 'flowbite-svelte-icons';
+
 	import DataTableDataCell from './DataTableDataCell.svelte';
 	import DataTableHeaderCell from './DataTableHeaderCell.svelte';
 
@@ -24,6 +25,8 @@
 	export let sortFunction: SortFunction | undefined | null = null;
 	export let reverseSort: boolean = false;
 	export let sortColumnID: string | null = null;
+	export let sortAscendingIcon: ConstructorOfATypedSvelteComponent = AngleDownSolid;
+	export let sortDescendingIcon: ConstructorOfATypedSvelteComponent = AngleUpSolid;
 	export let itemKey: string | null = null;
 
 	export let enterAction: EnterAction = 'next';
@@ -267,6 +270,8 @@
 				{column}
 				isSorted={!!sortColumnID && getColumnID(column) === sortColumnID}
 				{reverseSort}
+				defaultSortAscendingIcon={sortAscendingIcon}
+				defaultSortDescendingIcon={sortDescendingIcon}
 				{thClass}
 				on:click={() => headerClicked(column)}
 			/>

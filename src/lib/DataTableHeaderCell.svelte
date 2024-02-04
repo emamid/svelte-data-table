@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { TableHeadCell } from 'flowbite-svelte';
-	import { AngleDownSolid, AngleUpSolid } from 'flowbite-svelte-icons';
 
 	import type { InternalColumnConfig } from './common.js';
 	import { joinClasses } from './common.js';
@@ -8,7 +7,12 @@
 	export let column: InternalColumnConfig;
 	export let reverseSort: boolean;
 	export let isSorted: boolean;
+	export let defaultSortAscendingIcon: ConstructorOfATypedSvelteComponent;
+	export let defaultSortDescendingIcon: ConstructorOfATypedSvelteComponent;
 	export let thClass: string;
+
+	const sortAscendingIcon = column.sortAscendingIcon || defaultSortAscendingIcon;
+	const sortDescendingIcon = column.sortDescendingIcon || defaultSortDescendingIcon;
 </script>
 
 <TableHeadCell
@@ -17,9 +21,9 @@
 >
 	{#if isSorted}
 		{#if reverseSort}
-			<AngleUpSolid class="inline h-3 w-3" />
+			<svelte:component this={sortAscendingIcon} class="inline h-3 w-3" />
 		{:else}
-			<AngleDownSolid class="inline h-3 w-3" />
+			<svelte:component this={sortDescendingIcon} class="inline h-3 w-3" />
 		{/if}
 	{/if}
 	<span>{column.title}</span>

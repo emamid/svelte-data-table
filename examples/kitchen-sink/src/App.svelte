@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Modal } from 'flowbite-svelte';
+	import { ArrowDownSolid, ArrowUpSolid, MinusSolid, PlusSolid } from 'flowbite-svelte-icons';
+
 	import DataTable, { ActionsCell, deleteAction, infoAction, InputCell, SelectCell, SpinCell, ToggleCell, } from '@emamid/svelte-data-table';
 	import type { ColumnConfig, DataCellClassFunction, RowClassFunction } from '@emamid/svelte-data-table';
 	import { characters as defaultCharacters, classes, races, } from '../../data.js';
@@ -123,7 +125,9 @@
 			viewComponent: BarCell,
 			viewComponentConfig: {
 				maxValue: maxLevel,
-			}
+			},
+			sortAscendingIcon: PlusSolid,
+			sortDescendingIcon: MinusSolid,
 		},
 	]
 
@@ -168,6 +172,8 @@
 		itemKey="id"
 		trClassGetter={redIfEvil}
 		sortKey="name"
+		sortAscendingIcon={ArrowDownSolid}
+		sortDescendingIcon={ArrowUpSolid}
 		on:action={action}
 		on:cellChanged={cellChanged}
 	/>

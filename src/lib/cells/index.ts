@@ -9,6 +9,8 @@ export * from './InputCell.svelte';
 export { default as InputCell } from './InputCell.svelte';
 export * from './NumberInputCell.svelte';
 export { default as NumberInputCell } from './NumberInputCell.svelte';
+export * from './RangeCell.svelte';
+export { default as RangeCell } from './RangeCell.svelte';
 export * from './SelectCell.svelte';
 export { default as SelectCell } from './SelectCell.svelte';
 export * from './SpinCell.svelte';

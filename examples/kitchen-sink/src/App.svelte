@@ -2,9 +2,10 @@
 	import { Modal } from 'flowbite-svelte';
 	import { ArrowDownSolid, ArrowUpSolid, MinusSolid, PlusSolid } from 'flowbite-svelte-icons';
 
-	import DataTable, { ActionsCell, deleteAction, infoAction, InputCell, SelectCell, SpinCell, ToggleCell, } from '@emamid/svelte-data-table';
+	import DataTable, { ActionsCell, deleteAction, infoAction, InputCell, MultiSelectCell, SelectCell, SpinCell, ToggleCell, } from '@emamid/svelte-data-table';
 	import type { ColumnConfig, DataCellClassFunction, RowClassFunction } from '@emamid/svelte-data-table';
-	import { characters as defaultCharacters, classes, races, } from '../../data.js';
+	import { books, characters as defaultCharacters, classes, races, } from '../../data.js';
+	import type { Character } from '../../data.js';
 	import BarCell from './BarCell.svelte';
 
 	let characters = [...defaultCharacters];
@@ -25,9 +26,9 @@
 		return calcClass;
 	}
 
-	const getClassName = (item: any) => classes.find(characterClass => characterClass.id === item.classID)?.name || '';
+	const getClassName = (character: Character) => classes.find(characterClass => characterClass.id === character.classID)?.name || '';
 
-	const getRaceName = (item: any) => races.find(race => race.id === item.raceID)?.name || '';
+	const getRaceName = (character: Character) => races.find(race => race.id === character.raceID)?.name || '';
 
 	const columns: ColumnConfig[] = [
 		{
@@ -39,7 +40,7 @@
 				actions: [
 					{
 						...deleteAction,
-						isDisabled: (item: any) => !item.dead,
+						isDisabled: (character: Character) => !character.dead,
 					},
 					infoAction,
 				]
@@ -72,7 +73,7 @@
 					displayValue: getRaceName(item),
 				}
 			},
-			sortFunction: (a: any, b: any) => getRaceName(a).localeCompare(getRaceName(b)),
+			sortFunction: (a: Character, b: Character) => getRaceName(a).localeCompare(getRaceName(b)),
 			canFocus: true,
 			canSort: true,
 		},
@@ -92,7 +93,7 @@
 					displayValue: getClassName(item),
 				}
 			},
-			sortFunction: (a: any, b: any) => getClassName(a).localeCompare(getClassName(b)),
+			sortFunction: (a: Character, b: Character) => getClassName(a).localeCompare(getClassName(b)),
 			canFocus: true,
 			canSort: true,
 		},
@@ -128,6 +129,25 @@
 			},
 			sortAscendingIcon: PlusSolid,
 			sortDescendingIcon: MinusSolid,
+		},
+		{
+			canFocus: true,
+			canSort: true,
+			key: 'seenIn',
+			title: 'Seen In',
+			thClassAppend: 'text-left w-10',
+			tdClassAppend: 'w-10 py-0',
+			focusComponent: MultiSelectCell,
+			focusComponentConfig: {
+				items: books,
+			},
+			cellRenderer: async(_column, item) => {
+				return {					
+					dataValue: item.seenIn,
+					displayValue: item.seenIn.map((id: number) => books.find(book => book.id === id)?.shortName || '').join(', '),
+				}
+			},
+			sortFunction: (a: Character, b: Character) => a.seenIn.length - b.seenIn.length,
 		},
 	]
 

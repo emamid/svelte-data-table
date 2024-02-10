@@ -14,7 +14,7 @@
 
 	const dispatch = createEventDispatcher();
 
-	const toggleChanged = () => {
+	const changed = () => {
 		dispatch('cellChanged', {
 			column,
 			item,
@@ -24,4 +24,4 @@
 	};
 </script>
 
-<Range {...$$props} bind:value={localValue} on:change={toggleChanged}>{#if caption}{caption}{/if}</Range>
+<Range {...$$props} bind:value={localValue} on:change={changed}>{#if caption}{caption}{/if}</Range>

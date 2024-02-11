@@ -26,6 +26,7 @@ export interface Character {
 	level: number;
 	raceID: number;
 	seenIn: number[],
+	notes?: string,
 }
 
 export const races: Race[] = [

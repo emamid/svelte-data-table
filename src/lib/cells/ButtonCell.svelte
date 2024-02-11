@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-
 	import { Button } from 'flowbite-svelte';
 
-	import type { ColumnConfig } from '../common.js';
+	import type { ColumnConfig } from '@emamid/svelte-data-table';
 
 	export let caption: string = '';
 	export let column: ColumnConfig;
@@ -11,18 +9,9 @@
 	export let icon: ConstructorOfATypedSvelteComponent | null = null;
 	export let iconClass: string = '';
 	export let iconPosition: 'left' | 'right' = 'right';
-
-	const dispatch = createEventDispatcher();
-
-	const buttonClicked = () => {
-		dispatch('click', {
-			column,
-			item,
-		});
-	};
 </script>
 
-<Button {...$$props} on:click={buttonClicked}>
+<Button>
 {#if icon && iconPosition === 'left'}
 <svelte:component this={icon} class={iconClass} />
 {/if}

@@ -266,12 +266,14 @@
 
 	const rowDragStart = (item: any) => {
 		draggedItem = item;
+		console.log('dispatching rowDragStart ', item);
 		dispatch('rowDragStart', {
 			draggedItem,
 		})
 	}
 
 	const rowDropped = (targetItem: any) => {
+		console.log('dispatching rowDropped ', targetItem);
 		dispatch('rowDropped', {
 			draggedItem,
 			targetItem,

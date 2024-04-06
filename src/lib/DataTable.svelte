@@ -261,6 +261,22 @@
 			item,
 		});
 	};
+
+	let draggedItem: any = null;
+
+	const rowDragStart = (item: any) => {
+		draggedItem = item;
+		dispatch('rowDragStart', {
+			draggedItem,
+		})
+	}
+
+	const rowDropped = (targetItem: any) => {
+		dispatch('rowDropped', {
+			draggedItem,
+			targetItem,
+		})
+	}
 </script>
 
 <Table class={tableClass} {divClass} {striped} {hoverable} {noborder} {shadow} {color} {customColor}>
@@ -280,7 +296,13 @@
 	<TableBody {tableBodyClass}>
 		{#each sortedItems as item}
 			{@const isRowFocused = !!focusedItemKey && focusedItemKey === getItemKey(item)}
-			<TableBodyRow class={getTRClass(item, isRowFocused)} on:click={() => rowClicked(item)}>
+			<TableBodyRow
+				class={getTRClass(item, isRowFocused)}
+				draggable={true}
+				on:click={() => rowClicked(item)}
+				on:dragstart={() => rowDragStart(item)}
+				on:drop={() => rowDropped(item)}
+			>
 				{#each internalColumns as column}
 					{@const isCellFocused =
 						isRowFocused && focusedColumnKeyID && focusedColumnKeyID === getColumnID(column)}

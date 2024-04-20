@@ -141,18 +141,42 @@ export const joinClasses = (...classes: (string | false | null | undefined)[]): 
  */	
 export type EnterAction = 'next' | 'down' | 'stay';
 
+export type GetItemKeyFunction = (item?: any) => any;
+
 export type GetTDClassFunction = (item: any, value: any, isFocused: boolean) => string;
+
+export type GetTRClassFunction = (item: any, isRowFocused: boolean) => string;
 
 export interface InternalColumnConfig extends ColumnConfig {
 	getTDClass: GetTDClassFunction;
 }
+
+export type RowBoolean = boolean | ((item: any) => boolean);
+
+export type DropBoolean = boolean | ((sourceItem: any, targetItem: any) => boolean);
 
 export const blankCellValue: CellValue = {
 	dataValue: null,
 	displayValue: '',
 };
 
+export const evalRowBoolean = (item: any, rowBoolean: RowBoolean) => {
+	if (typeof rowBoolean === 'boolean') {
+		return rowBoolean;
+	}
+	return rowBoolean(item);
+}
+
+export const evalDropBoolean = (sourceItem: any, targetItem: any, dropBoolean: DropBoolean) => {
+	if (typeof dropBoolean == 'boolean') {
+		return dropBoolean;
+	}
+	return dropBoolean(sourceItem, targetItem);
+}
+
 export const defaultCellRenderer: CellRenderer = async (column, item) =>
 	column.key
 		? { dataValue: item[column.key], displayValue: item[column.key] || '' }
 		: blankCellValue;
+
+export const getColumnID = (column?: ColumnConfig | null) => (column ? column.id || null : null);

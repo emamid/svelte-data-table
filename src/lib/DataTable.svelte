@@ -1,23 +1,32 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 
-	import { Table, TableBody, TableBodyRow, TableHead } from 'flowbite-svelte';
+	import { Table, TableBody, TableHead } from 'flowbite-svelte';
 	import { AngleDownSolid, AngleUpSolid } from 'flowbite-svelte-icons';
 
-	import DataTableDataCell from './DataTableDataCell.svelte';
 	import DataTableHeaderCell from './DataTableHeaderCell.svelte';
+	import DataTableRow from './DataTableRow.svelte';
 
 	import type {
 		ColumnConfig,
+		DropBoolean,
+		GetItemKeyFunction,
 		GetTDClassFunction,
+		GetTRClassFunction,
 		EnterAction,
 		InternalColumnConfig,
+		RowBoolean,
 		RowClassFunction,
 		SortFunction,
 	} from './common.js';
 
-	import { joinClasses } from './common.js';
+	import {
+		getColumnID,
+		joinClasses,
+	} from './common.js';
 
+	export let allowRowDrag: RowBoolean = false;
+	export let allowRowDrop: DropBoolean = !!allowRowDrag;
 	export let columns: ColumnConfig[] = [];
 	export let items: any[] = [];
 
@@ -116,10 +125,8 @@
 
 	const dispatch = createEventDispatcher();
 
-	const getItemKey = (item?: any) =>
+	const getItemKey: GetItemKeyFunction = (item?: any) =>
 		item ? (itemKey ? item[itemKey] || null : items.indexOf(item).toString()) : null;
-
-	const getColumnID = (column?: ColumnConfig | null) => (column ? column.id || null : null);
 
 	const divClass = joinClasses(divClassOverride || divClassDefault, divClassAppend);
 	const tableClass = joinClasses(tableClassOverride || tableClassDefault, tableClassAppend);
@@ -136,7 +143,7 @@
 		tdFocusedClassAppend,
 	);
 
-	const getTRClass = (item: any, isRowFocused: boolean) =>
+	const getTRClass: GetTRClassFunction = (item: any, isRowFocused: boolean) =>
 		trClassGetter
 			? trClassGetter(item, isRowFocused, trClass, trClassDefault, trClassAppend, trClassOverride)
 			: trClass;
@@ -223,7 +230,8 @@
 		}
 	};
 
-	const cellClicked = (item: any, column: ColumnConfig) => {
+	const cellClicked = (event: CustomEvent) => {
+		const { column, item } = event.detail;
 		focusedColumnKeyID = null;
 		focusedItemKey = null;
 		if (column.canFocus) {
@@ -233,6 +241,9 @@
 		dispatch('cellClicked', {
 			item,
 			column,
+		});
+		dispatch('rowClicked', {
+			item,
 		});
 	};
 
@@ -255,30 +266,6 @@
 			reverseSort,
 		});
 	};
-
-	const rowClicked = (item: any) => {
-		dispatch('rowClicked', {
-			item,
-		});
-	};
-
-	let draggedItem: any = null;
-
-	const rowDragStart = (item: any) => {
-		draggedItem = item;
-		console.log('dispatching rowDragStart ', item);
-		dispatch('rowDragStart', {
-			draggedItem,
-		})
-	}
-
-	const rowDropped = (targetItem: any) => {
-		console.log('dispatching rowDropped ', targetItem);
-		dispatch('rowDropped', {
-			draggedItem,
-			targetItem,
-		})
-	}
 </script>
 
 <Table class={tableClass} {divClass} {striped} {hoverable} {noborder} {shadow} {color} {customColor}>
@@ -298,29 +285,24 @@
 	<TableBody {tableBodyClass}>
 		{#each sortedItems as item}
 			{@const isRowFocused = !!focusedItemKey && focusedItemKey === getItemKey(item)}
-			<TableBodyRow
-				class={getTRClass(item, isRowFocused)}
-				draggable={true}
-				on:click={() => rowClicked(item)}
-				on:dragstart={() => rowDragStart(item)}
-				on:drop={() => rowDropped(item)}
-			>
-				{#each internalColumns as column}
-					{@const isCellFocused =
-						isRowFocused && focusedColumnKeyID && focusedColumnKeyID === getColumnID(column)}
-					<DataTableDataCell
-						{column}
-						{isCellFocused}
-						{item}
-						on:click={() => cellClicked(item, column)}
-						on:enterPressed={enterPressed}
-						on:prevTab={prevTab}
-						on:nextTab={nextTab}
-						on:action
-						on:cellChanged
-					/>
-				{/each}
-			</TableBodyRow>
+			<DataTableRow
+				{allowRowDrag}
+				{allowRowDrop}
+				columns={internalColumns}
+				{focusedColumnKeyID}
+				{getTRClass}
+				{isRowFocused}
+				{item}
+				on:action
+				on:cellChanged
+				on:cellClicked={cellClicked}
+				on:enterPressed={enterPressed}
+				on:nextTab={nextTab}
+				on:prevTab={prevTab}
+				on:rowClicked
+				on:rowDragStart
+				on:rowDropped
+			/>
 		{/each}
 	</TableBody>
 </Table>

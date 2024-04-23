@@ -5,25 +5,28 @@
 
 	import DataTableDataCell from './DataTableDataCell.svelte';
 	import {
-		evalDropBoolean,
+		evalRowDropBoolean,
 		evalRowBoolean,
 		getColumnID,
+		getDataTableContext,
 	} from './common.js';
 	import type {
 		ColumnConfig,
-		DropBoolean,
+		RowBoolean,
+		RowDropBoolean,
 		GetTRClassFunction,
 		InternalColumnConfig,
-		RowBoolean,
 	} from './common.js';
 
 	export let allowRowDrag: RowBoolean;
-	export let allowRowDrop: DropBoolean;
+	export let allowRowDrop: RowDropBoolean;
 	export let columns: InternalColumnConfig[];
 	export let focusedColumnKeyID: any;
 	export let getTRClass: GetTRClassFunction;
 	export let isRowFocused: boolean;
 	export let item: any;
+
+	const context = getDataTableContext();
 
 	let span: HTMLSpanElement;
 
@@ -33,14 +36,9 @@
 
 	const rowClicked = () => dispatch('rowClicked', { item });
 
-	const getSourceItem = (event: DragEvent): any => {
-		const itemJSON = event.dataTransfer?.getData('application/json');
-		return itemJSON && JSON.parse(itemJSON);
-	}
-
 	const dragOverHandler = (event: DragEvent) => {
-		const sourceItem = getSourceItem(event);
-		const canDrop = evalDropBoolean(sourceItem, item, allowRowDrop);
+		const { draggedItem } = context;
+		const canDrop = evalRowDropBoolean(draggedItem, item, allowRowDrop);
 		if (canDrop) {
 			event.preventDefault();
 			if (event.dataTransfer) {
@@ -50,7 +48,8 @@
 	}
 
 	const dragStartHandler = (dragEvent: DragEvent) => {
-		dragEvent.dataTransfer?.setData('application/json', JSON.stringify(item));
+		context.draggedColumn = undefined;
+		context.draggedItem = item;
 		dispatch('rowDragStart', {
 			dragEvent,
 			sourceItem: item,
@@ -58,38 +57,43 @@
 	}
 
 	const dropHandler = (event: DragEvent) => {
-		const sourceItem = getSourceItem(event);
-		const canDrop = evalDropBoolean(sourceItem, item, allowRowDrop);
+		const { draggedItem } = context;
+		const canDrop = evalRowDropBoolean(draggedItem, item, allowRowDrop);
 		if (canDrop) {
 			event.preventDefault();
 			dispatch('rowDropped', {
-				sourceItem,
+				sourceItem: draggedItem,
 				targetItem: item,
 			})
 		}
 	}
 
 	onMount(() => {
-		span?.parentElement?.addEventListener('click', rowClicked);
-		span?.parentElement?.addEventListener('dragover', dragOverHandler);
-		span?.parentElement?.addEventListener('dragstart', dragStartHandler);
-		span?.parentElement?.addEventListener('drop', dropHandler);
+		if (span && span.parentElement) {
+			span.parentElement.addEventListener('click', rowClicked);
+			span.parentElement.addEventListener('dragover', dragOverHandler);
+			span.parentElement.addEventListener('dragstart', dragStartHandler);
+			span.parentElement.addEventListener('drop', dropHandler);
+		}
 	})
 
 	onDestroy(() => {
-		span?.parentElement?.removeEventListener('click', rowClicked);
-		span?.parentElement?.removeEventListener('dragover', dragOverHandler);
-		span?.parentElement?.removeEventListener('dragstart', dragStartHandler);
-		span?.parentElement?.removeEventListener('drop', dropHandler);
+		if (span && span.parentElement) {
+			span.parentElement.removeEventListener('click', rowClicked);
+			span.parentElement.removeEventListener('dragover', dragOverHandler);
+			span.parentElement.removeEventListener('dragstart', dragStartHandler);
+			span.parentElement.removeEventListener('drop', dropHandler);
+		}
 	})
-
 </script>
 
 <TableBodyRow
 	class={getTRClass(item, isRowFocused)}
 	draggable={evalRowBoolean(item, allowRowDrag)}
 >
-	<span style="display:none" bind:this={span}></span>
+	{#if !!allowRowDrag || !!allowRowDrop}
+		<span style="display:none" bind:this={span}></span>
+	{/if}
 	{#each columns as column}
 		{@const isCellFocused =
 			isRowFocused && focusedColumnKeyID && focusedColumnKeyID === getColumnID(column)}
@@ -103,6 +107,8 @@
 			on:nextTab
 			on:action
 			on:cellChanged
+			on:cellDragStart
+			on:cellDropped
 		/>
 	{/each}
 </TableBodyRow>

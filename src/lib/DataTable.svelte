@@ -9,24 +9,25 @@
 
 	import type {
 		ColumnConfig,
-		DropBoolean,
+		EnterAction,		
 		GetItemKeyFunction,
 		GetTDClassFunction,
 		GetTRClassFunction,
-		EnterAction,
 		InternalColumnConfig,
 		RowBoolean,
 		RowClassFunction,
+		RowDropBoolean,
 		SortFunction,
 	} from './common.js';
 
 	import {
 		getColumnID,
 		joinClasses,
+		setDataTableContext,
 	} from './common.js';
 
 	export let allowRowDrag: RowBoolean = false;
-	export let allowRowDrop: DropBoolean = !!allowRowDrag;
+	export let allowRowDrop: RowDropBoolean = !!allowRowDrag;
 	export let columns: ColumnConfig[] = [];
 	export let items: any[] = [];
 
@@ -77,13 +78,15 @@
 	export let hoverable:	boolean	= false
 	export let noborder: boolean = false;
 	export let shadow: boolean = false;
-	export let color: string = 'default';
+	export let color: string | undefined = 'default';
 	export let customColor: string = '';
 
 	let sortedItems: any[] = [];
 
 	let focusedColumnKeyID: any = null;
 	let focusedItemKey: any = null;
+
+	setDataTableContext({});
 
 	const sortBySortKey: SortFunction = (a: any, b: any) => {
 		let aValue = a[sortKey];
@@ -296,6 +299,8 @@
 				on:action
 				on:cellChanged
 				on:cellClicked={cellClicked}
+				on:cellDragStart
+				on:cellDropped
 				on:enterPressed={enterPressed}
 				on:nextTab={nextTab}
 				on:prevTab={prevTab}

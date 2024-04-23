@@ -1,3 +1,5 @@
+import { getContext, setContext } from 'svelte';
+
 /**
  * Values for a given column/row, returned by cellRenderer (or the default renderer).
  * @typedef {object} CellValue
@@ -63,6 +65,8 @@ export type SortFunction = (
  * @property {string} [id] - Used to distinguish between multiple columns that have the same key.
  * @property {string} [key] - Name of the property in each row item that will be used for this column's value.
  * @property {string} [title] - Text to display in the column's header.
+ * @property {RowBoolean} [allowCellDrag] - 
+ * @property {CellDropBoolean} [allowCellDrop] - 
  * @property {CellRenderer} [cellRenderer] - Dynamically determines the data value and display value for a cell.
  * @property {ConstructorOfATypedSvelteComponent} [viewComponent] - Svelte component class to be displayed in the cell regardless of focus. If set, focusComponent will be ignored.
  * @property {object} [viewComponentConfig] - Properties to be passed when creating viewComponent.
@@ -83,14 +87,19 @@ export type SortFunction = (
  * @property {string} [sortKey] - Item property to sort by, if sortFunction is not defined.
   */
 export interface ColumnConfig {
-	id?: string;
-	key?: string;
-	title?: string;
+	allowCellDrag?: RowBoolean;
+	allowCellDrop?: CellDropBoolean;
+	canFocus?: boolean;
+	canSort?: boolean;
 	cellRenderer?: CellRenderer;
-	viewComponent?: ConstructorOfATypedSvelteComponent;
-	viewComponentConfig?: any;
 	focusComponent?: ConstructorOfATypedSvelteComponent;
 	focusComponentConfig?: any;
+	id?: string;
+	key?: string;
+	sortAscendingIcon?: ConstructorOfATypedSvelteComponent;
+	sortDescendingIcon?: ConstructorOfATypedSvelteComponent;
+	sortFunction?: SortFunction;
+	sortKey?: string;
 	tdClassAppend?: string;
 	tdClassOverride?: string;
 	tdFocusedClassAppend?: string;
@@ -98,12 +107,9 @@ export interface ColumnConfig {
 	tdClassGetter?: DataCellClassFunction;
 	thClassAppend?: string;
 	thClassOverride?: string;
-	canFocus?: boolean;
-	canSort?: boolean;
-	sortFunction?: SortFunction;
-	sortKey?: string;
-	sortAscendingIcon?: ConstructorOfATypedSvelteComponent;
-	sortDescendingIcon?: ConstructorOfATypedSvelteComponent;
+	title?: string;
+	viewComponent?: ConstructorOfATypedSvelteComponent;
+	viewComponentConfig?: any;
 }
 
 /**
@@ -141,18 +147,74 @@ export const joinClasses = (...classes: (string | false | null | undefined)[]): 
  */	
 export type EnterAction = 'next' | 'down' | 'stay';
 
+export type GetItemKeyFunction = (item?: any) => any;
+
 export type GetTDClassFunction = (item: any, value: any, isFocused: boolean) => string;
+
+export type GetTRClassFunction = (item: any, isRowFocused: boolean) => string;
 
 export interface InternalColumnConfig extends ColumnConfig {
 	getTDClass: GetTDClassFunction;
 }
+
+/**
+ * @callback CellDropBoolean
+ * @returns {boolean}
+ */
+export type CellDropBoolean = boolean | ((sourceItem: any, targetItem: any, targetColumn: ColumnConfig) => boolean);
+
+/**
+ * @callback RowBoolean
+ * @returns {boolean}
+ */
+export type RowBoolean = boolean | ((item: any) => boolean);
+
+/**
+ * @callback RowDropBoolean
+ * @returns {boolean}
+ */
+export type RowDropBoolean = boolean | ((sourceItem: any, targetItem: any) => boolean);
 
 export const blankCellValue: CellValue = {
 	dataValue: null,
 	displayValue: '',
 };
 
+export const evalCellDropBoolean = (sourceItem: any, sourceColumn: ColumnConfig | undefined, targetItem: any, cellDropBoolean?: CellDropBoolean) => {
+	if (typeof cellDropBoolean === 'boolean') {
+		return cellDropBoolean;
+	}
+	return cellDropBoolean && cellDropBoolean(sourceItem, sourceColumn, targetItem);
+}
+
+export const evalRowBoolean = (item: any, rowBoolean?: RowBoolean) => {
+	if (typeof rowBoolean === 'boolean') {
+		return rowBoolean;
+	}
+	return rowBoolean && rowBoolean(item);
+}
+
+export const evalRowDropBoolean = (sourceItem: any, targetItem: any, rowDropBoolean?: RowDropBoolean) => {
+	if (typeof rowDropBoolean == 'boolean') {
+		return rowDropBoolean;
+	}
+	return rowDropBoolean && rowDropBoolean(sourceItem, targetItem);
+}
+
 export const defaultCellRenderer: CellRenderer = async (column, item) =>
 	column.key
 		? { dataValue: item[column.key], displayValue: item[column.key] || '' }
 		: blankCellValue;
+
+export const getColumnID = (column?: ColumnConfig | null) => (column ? column.id || null : null);
+
+interface DataTableContext {
+	draggedColumn?: InternalColumnConfig;
+	draggedItem?: any;
+}
+
+const dataTableContextName = 'data-grid';
+
+export const getDataTableContext = () => getContext<DataTableContext>(dataTableContextName);
+
+export const setDataTableContext = (context: DataTableContext) => setContext<DataTableContext>(dataTableContextName, context);

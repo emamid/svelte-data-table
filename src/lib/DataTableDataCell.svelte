@@ -1,18 +1,90 @@
 <script lang="ts">
+	import { createEventDispatcher, onDestroy } from 'svelte';
+
 	import { TableBodyCell } from 'flowbite-svelte';
 
-	import type { InternalColumnConfig } from './common.js';
-	import { defaultCellRenderer } from './common.js';
+	import type {	InternalColumnConfig	} from './common.js';
+	import {
+		defaultCellRenderer,
+		evalCellDropBoolean,
+		evalRowBoolean,
+		getDataTableContext,
+	} from './common.js';
 
 	export let column: InternalColumnConfig;
 	export let item: any;
 	export let isCellFocused: boolean;
+
+	const context = getDataTableContext();
+
+	let span: HTMLSpanElement;
+
+	const dispatch = createEventDispatcher();
+
+	const dragOverHandler = (event: DragEvent) => {
+		const { draggedColumn, draggedItem} = context;
+		event.preventDefault();
+		const canDrop = evalCellDropBoolean(draggedItem, draggedColumn, item, column.allowCellDrop);
+		if (canDrop) {
+			event.preventDefault();
+			if (event.dataTransfer) {
+				event.dataTransfer.dropEffect = 'move';
+			}
+		}
+	}
+
+	const dragStartHandler = (dragEvent: DragEvent) => {
+		context.draggedColumn = column;	
+		context.draggedItem = item;	
+		dispatch('cellDragStart', {
+			dragEvent,
+			sourceColumn: column,
+			sourceItem: item,
+		})
+	}
+
+	const dropHandler = (event: DragEvent) => {
+		const { draggedColumn, draggedItem} = context;
+		const canDrop = evalCellDropBoolean(draggedItem, draggedColumn, item, column.allowCellDrop);
+		if (canDrop) {
+			event.preventDefault();
+			dispatch('cellDropped', {
+				sourceColumn: draggedColumn,
+				sourceItem: draggedItem,
+				targetColumn: column,
+				targetItem: item,
+			})
+		}
+	}
+
+	$: {
+		if (span && span.parentElement) {
+			span.parentElement.addEventListener('dragover', dragOverHandler);
+			span.parentElement.addEventListener('dragstart', dragStartHandler);
+			span.parentElement.addEventListener('drop', dropHandler);
+		}
+	}
+
+	onDestroy(() => {
+		if (span && span.parentElement) {
+			span.parentElement.removeEventListener('dragover', dragOverHandler);
+			span.parentElement.removeEventListener('dragstart', dragStartHandler);
+			span.parentElement.removeEventListener('drop', dropHandler);
+		}
+	})
 </script>
 
 {#await (column.cellRenderer || defaultCellRenderer)(column, item)}
 	<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)} />
 {:then { dataValue, displayValue }}
-	<TableBodyCell tdClass={column.getTDClass(item, dataValue, isCellFocused)} on:click>
+	<TableBodyCell
+		draggable={evalRowBoolean(item, column.allowCellDrag)}
+		tdClass={column.getTDClass(item, dataValue, isCellFocused)}
+		on:click
+	>
+		{#if !!column.allowCellDrag || !!column.allowCellDrop}
+			<span style="display:none" bind:this={span}></span>
+		{/if}
 		{#if column.viewComponent}
 			<svelte:component
 				this={column.viewComponent}

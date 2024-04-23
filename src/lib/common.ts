@@ -157,23 +157,29 @@ export interface InternalColumnConfig extends ColumnConfig {
 	getTDClass: GetTDClassFunction;
 }
 
+type CellDropBooleanFunction = (sourceItem: any, targetItem: any, targetColumn: ColumnConfig) => boolean;
+
 /**
  * @callback CellDropBoolean
  * @returns {boolean}
  */
-export type CellDropBoolean = boolean | ((sourceItem: any, targetItem: any, targetColumn: ColumnConfig) => boolean);
+export type CellDropBoolean = boolean | CellDropBooleanFunction;
+
+type RowBooleanFunction = (item: any) => boolean
 
 /**
  * @callback RowBoolean
  * @returns {boolean}
  */
-export type RowBoolean = boolean | ((item: any) => boolean);
+export type RowBoolean = boolean | RowBooleanFunction;
+
+type RowDropBooleanFunction = (sourceItem: any, targetItem: any) => boolean;
 
 /**
  * @callback RowDropBoolean
  * @returns {boolean}
  */
-export type RowDropBoolean = boolean | ((sourceItem: any, targetItem: any) => boolean);
+export type RowDropBoolean = boolean | RowDropBooleanFunction;
 
 export const blankCellValue: CellValue = {
 	dataValue: null,

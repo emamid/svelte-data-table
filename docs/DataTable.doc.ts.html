@@ -90,6 +90,8 @@
  * @typedef {object} DataTable
  * @property {ColumnConfig[]} columns - Configuration for each column to be displayed in the table.
  * @property {any[]} items - Data for the rows in the table.
+ * @property {RowBoolean} [allowRowDrag] -
+ * @property {RowDropBoolean} [allowRowDrop] - 
  * @property {string} [sortKey] - Data property to sort by.
  * @property {SortFunction} [sortFunction] - Function for more complex-sorting.
  * @property {boolean} [reverseSort] - True when sorting is reversed.
@@ -128,6 +130,8 @@
  * @fires headerClicked
  * @fires rowClicked
  */
+
+import type { RowBoolean, RowDropBoolean } from './common';
 
 /**
  * @event cellClicked

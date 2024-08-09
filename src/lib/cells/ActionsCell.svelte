@@ -1,4 +1,7 @@
 <script lang="ts" context="module">
+	import { Tooltip } from 'flowbite-svelte';
+	import Icon from '@iconify/svelte';
+
 	// TODO: Find out why this is not importing correctly
 	// import type { ButtonColor } from 'flowbite-svelte';
 	import type { ColumnConfig } from '../common.js';
@@ -16,6 +19,18 @@
 		| 'alternative'
 		| undefined;
 
+	type IconifyProps = {
+		color?: string;
+		flip?: string;
+		height?: string | number;
+		hFlip?: boolean;
+		icon: string;
+		inline?: boolean;
+		rotate?: number;
+		vFlip?: boolean;
+		width?: string | number;
+	}	
+
 	export type ActionDisablementFunction =	(item: any, column: ColumnConfig, action: Action) => boolean;
 
 	export interface Action {
@@ -23,9 +38,11 @@
 		buttonColor?: ButtonColor;
 		caption?: string;
 		name: string;
-		icon: ConstructorOfATypedSvelteComponent;
+		icon?: ConstructorOfATypedSvelteComponent;
 		iconClass?: string;
+		iconify?: IconifyProps;	
 		isDisabled?: ActionDisablementFunction;
+		tooltip?: string;
 	}
 </script>
 
@@ -60,7 +77,17 @@
 		disabled={action.isDisabled?.(item, column, action)}
 		on:click={() => actionClicked(action)}
 	>
-		<svelte:component this={action.icon} class={action.iconClass || iconClass} />
+		{#if action.icon}
+			<svelte:component this={action.icon} class={action.iconClass || iconClass} />
+		{/if}
+		{#if action.iconify}
+			<Icon
+				{...action.iconify}
+			/>
+		{/if}
 		{#if action.caption}{action.caption}{/if}
 	</Button>
+	{#if action.tooltip}
+		<Tooltip class="z-10">{action.tooltip}</Tooltip>
+	{/if}
 {/each}

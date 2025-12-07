@@ -50,7 +50,7 @@
 		"jsdoc-plugin-typescript": "^2.2.1",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
-		"publint": "^0.1.9",
+		"publint": "^0.3.15",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
 		"tslib": "^2.4.1",

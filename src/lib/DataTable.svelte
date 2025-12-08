@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { createEventDispatcher } from 'svelte';
 
 	import { Table, TableBody, TableHead } from 'flowbite-svelte';
@@ -26,65 +28,105 @@
 		setDataTableContext,
 	} from './common.js';
 
-	export let allowRowDrag: RowBoolean = false;
-	export let allowRowDrop: RowDropBoolean = !!allowRowDrag;
-	export let columns: ColumnConfig[] = [];
-	export let items: any[] = [];
 
-	export let sortKey: string = '';
-	export let sortFunction: SortFunction | undefined | null = null;
-	export let reverseSort: boolean = false;
-	export let sortColumnID: string | null = null;
-	export let sortAscendingIcon: ConstructorOfATypedSvelteComponent = AngleDownSolid;
-	export let sortDescendingIcon: ConstructorOfATypedSvelteComponent = AngleUpSolid;
-	export let itemKey: string | null = null;
 
-	export let enterAction: EnterAction = 'next';
 
-	export let divClassAppend: string = '';
-	export let divClassOverride: string = '';
 	const divClassDefault = 'relative overflow-x-auto overflow-y-auto';
 
-	export let tableClassAppend: string = '';
-	export let tableClassOverride: string = '';
 	const tableClassDefault = '';
 
-	export let theadClassAppend: string = '';
-	export let theadClassOverride: string = '';
 	const theadClassDefault = 'text-xs uppercase sticky top-0 z-10';
 
-	export let thClassAppend: string = '';
-	export let thClassOverride: string = '';
 	const thClassDefault = '';
 
-	export let tableBodyClassAppend: string = '';
-	export let tableBodyClassOverride: string = '';
 	const tableBodyClassDefault = '';
 
-	export let tdClassAppend: string = '';
-	export let tdClassOverride: string = '';
 	const tdClassDefault: string = 'px-6 py-4 whitespace-nowrap font-medium';
 
-	export let tdFocusedClassAppend: string = '';
-	export let tdFocusedClassOverride: string = '';
 	const tdFocusedClassDefault: string = 'px-6 py-4 whitespace-nowrap font-medium';
 
-	export let trClassAppend: string = '';
-	export let trClassOverride: string = '';
 	const trClassDefault: string = '';
-	export let trClassGetter: RowClassFunction | null = null;
 
-	export let striped: boolean = false;
-	export let hoverable:	boolean	= false
-	export let noborder: boolean = false;
-	export let shadow: boolean = false;
-	export let color: string | undefined = 'default';
-	export let customColor: string = '';
+	interface Props {
+		allowRowDrag?: RowBoolean;
+		allowRowDrop?: RowDropBoolean;
+		columns?: ColumnConfig[];
+		items?: any[];
+		sortKey?: string;
+		sortFunction?: SortFunction | undefined | null;
+		reverseSort?: boolean;
+		sortColumnID?: string | null;
+		sortAscendingIcon?: ConstructorOfATypedSvelteComponent;
+		sortDescendingIcon?: ConstructorOfATypedSvelteComponent;
+		itemKey?: string | null;
+		enterAction?: EnterAction;
+		divClassAppend?: string;
+		divClassOverride?: string;
+		tableClassAppend?: string;
+		tableClassOverride?: string;
+		theadClassAppend?: string;
+		theadClassOverride?: string;
+		thClassAppend?: string;
+		thClassOverride?: string;
+		tableBodyClassAppend?: string;
+		tableBodyClassOverride?: string;
+		tdClassAppend?: string;
+		tdClassOverride?: string;
+		tdFocusedClassAppend?: string;
+		tdFocusedClassOverride?: string;
+		trClassAppend?: string;
+		trClassOverride?: string;
+		trClassGetter?: RowClassFunction | null;
+		striped?: boolean;
+		hoverable?: 	boolean;
+		noborder?: boolean;
+		shadow?: boolean;
+		color?: string | undefined;
+		customColor?: string;
+	}
 
-	let sortedItems: any[] = [];
+	let {
+		allowRowDrag = false,
+		allowRowDrop = !!allowRowDrag,
+		columns = [],
+		items = [],
+		sortKey = $bindable(''),
+		sortFunction = $bindable(null),
+		reverseSort = $bindable(false),
+		sortColumnID = $bindable(null),
+		sortAscendingIcon = AngleDownSolid,
+		sortDescendingIcon = AngleUpSolid,
+		itemKey = null,
+		enterAction = 'next',
+		divClassAppend = '',
+		divClassOverride = '',
+		tableClassAppend = '',
+		tableClassOverride = '',
+		theadClassAppend = '',
+		theadClassOverride = '',
+		thClassAppend = '',
+		thClassOverride = '',
+		tableBodyClassAppend = '',
+		tableBodyClassOverride = '',
+		tdClassAppend = '',
+		tdClassOverride = '',
+		tdFocusedClassAppend = '',
+		tdFocusedClassOverride = '',
+		trClassAppend = '',
+		trClassOverride = '',
+		trClassGetter = null,
+		striped = false,
+		hoverable = false,
+		noborder = false,
+		shadow = false,
+		color = 'default',
+		customColor = ''
+	}: Props = $props();
 
-	let focusedColumnKeyID: any = null;
-	let focusedItemKey: any = null;
+	let sortedItems: any[] = $state([]);
+
+	let focusedColumnKeyID: any = $state(null);
+	let focusedItemKey: any = $state(null);
 
 	setDataTableContext({});
 
@@ -115,7 +157,7 @@
 		return JSON.stringify(aValue).localeCompare(JSON.stringify(bValue));
 	};
 
-	$: {
+	run(() => {
 		sortedItems = sortFunction
 			? items.toSorted(sortFunction)
 			: sortKey
@@ -124,7 +166,7 @@
 		if (reverseSort) {
 			sortedItems.reverse();
 		}
-	}
+	});
 
 	const dispatch = createEventDispatcher();
 

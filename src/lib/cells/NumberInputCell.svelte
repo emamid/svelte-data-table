@@ -5,22 +5,27 @@
 	import type { ColumnConfig } from '../common.js';
 	import TabWrapper from './TabWrapper.svelte';
 
-	export let item: any;
-	export let column: ColumnConfig;
-	export let value: number;
+	interface Props {
+		item: any;
+		column: ColumnConfig;
+		value: number;
+		[key: string]: any
+	}
 
-	let internalValue: number;
+	let { ...props }: Props = $props();
 
-	$: internalValue = value;
+	let internalValue: number = $derived(value);
+
+	
 
 	const dispatch = createEventDispatcher();
 
 	const dispatchCellChanged = () => {
-		if (value !== internalValue) {
+		if (props.value !== internalValue) {
 			dispatch('cellChanged', {
-				column,
-				item,
-				oldValue: value,
+				props.props.column,
+				props.props.item,
+				oldValue: props.value,
 				newValue: internalValue,
 			});
 		}
@@ -29,8 +34,8 @@
 	const keypress = async (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
 			dispatch('enterPressed', {
-				column,
-				item,
+				props.props.column,
+				props.props.item,
 			});
 			dispatchCellChanged();
 		}
@@ -38,21 +43,21 @@
 
 	const prevTab = (_event: any) => {
 		dispatch('prevTab', {
-			column,
-			item,
+			props.props.column,
+			props.props.item,
 		});
 		dispatchCellChanged();
 	};
 
 	const nextTab = (_event: any) => {
 		dispatch('nextTab', {
-			column,
-			item,
+			props.props.column,
+			props.props.item,
 		});
 		dispatchCellChanged();
 	};
 </script>
 
 <TabWrapper on:prevTab={prevTab} on:nextTab={nextTab}>
-	<NumberInput bind:value={internalValue} {...$$props} on:keypress={keypress} autofocus />
+	<NumberInput bind:value={internalValue} {...props} on:keypress={keypress} autofocus />
 </TabWrapper>

@@ -6,18 +6,34 @@
 
 	import type { ColumnConfig } from '../common.js';
 
-	export let item: any;
-	export let column: ColumnConfig;
-	export let value: any;
-	export let decValue: number = 1;
-	export let incValue: number = 1;
-	export let minValue: number | undefined = undefined;
-	export let maxValue: number | undefined = undefined;
 
-	export let minusIcon: ConstructorOfATypedSvelteComponent = MinusSolid;
-	export let minusIconClass: string = 'pr-1 w-3 h-3';
-	export let plusIcon: ConstructorOfATypedSvelteComponent = PlusSolid;
-	export let plusIconClass: string = 'pr-1 w-3 h-3';
+	interface Props {
+		item: any;
+		column: ColumnConfig;
+		value: any;
+		decValue?: number;
+		incValue?: number;
+		minValue?: number | undefined;
+		maxValue?: number | undefined;
+		minusIcon?: ConstructorOfATypedSvelteComponent;
+		minusIconClass?: string;
+		plusIcon?: ConstructorOfATypedSvelteComponent;
+		plusIconClass?: string;
+	}
+
+	let {
+		item,
+		column,
+		value,
+		decValue = 1,
+		incValue = 1,
+		minValue = undefined,
+		maxValue = undefined,
+		minusIcon = MinusSolid,
+		minusIconClass = 'pr-1 w-3 h-3',
+		plusIcon = PlusSolid,
+		plusIconClass = 'pr-1 w-3 h-3'
+	}: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -46,7 +62,8 @@
 		class="pr-1"
 		on:click={decrement}
 		disabled={minValue !== undefined && value - decValue < minValue}
-		><svelte:component this={minusIcon} class={minusIconClass} /></Button
+		>{@const SvelteComponent = minusIcon}
+		><SvelteComponent class={minusIconClass} /></Button
 	>
 	{value || 0}
 	<Button
@@ -54,7 +71,8 @@
 		class="pl-1"
 		on:click={increment}
 		disabled={maxValue !== undefined && value + incValue > maxValue}
-		><svelte:component this={plusIcon} class={plusIconClass} /></Button
+		>{@const SvelteComponent_1 = plusIcon}
+		><SvelteComponent_1 class={plusIconClass} /></Button
 	>
 </div>
 

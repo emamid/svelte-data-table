@@ -3,20 +3,33 @@
 
 	import type { ColumnConfig } from '@emamid/svelte-data-table';
 
-	export let caption: string = '';
-	export let column: ColumnConfig;
-	export let item: any;
-	export let icon: ConstructorOfATypedSvelteComponent | null = null;
-	export let iconClass: string = '';
-	export let iconPosition: 'left' | 'right' = 'right';
+	interface Props {
+		caption?: string;
+		column: ColumnConfig;
+		item: any;
+		icon?: ConstructorOfATypedSvelteComponent | null;
+		iconClass?: string;
+		iconPosition?: 'left' | 'right';
+	}
+
+	let {
+		caption = '',
+		column,
+		item,
+		icon = null,
+		iconClass = '',
+		iconPosition = 'right'
+	}: Props = $props();
 </script>
 
 <Button>
 {#if icon && iconPosition === 'left'}
-<svelte:component this={icon} class={iconClass} />
+{@const SvelteComponent = icon}
+<SvelteComponent class={iconClass} />
 {/if}
 {#if caption}{caption}{/if}
 {#if icon && iconPosition === 'right'}
-<svelte:component this={icon} class={iconClass} />
+{@const SvelteComponent_1 = icon}
+<SvelteComponent_1 class={iconClass} />
 {/if}
 </Button>

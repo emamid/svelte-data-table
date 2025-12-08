@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	import { Tooltip } from 'flowbite-svelte';
 	import Icon from '@iconify/svelte';
 
@@ -51,13 +51,24 @@
 
 	import { Button } from 'flowbite-svelte';
 
-	export let buttonClass: string = 'border-0 p-1';
-	export let buttonColor: ButtonColor = 'light';
-	export let iconClass: string = 'w-4 h-4';
 
-	export let column: ColumnConfig;
-	export let item: any;
-	export let actions: Action[] = [];
+	interface Props {
+		buttonClass?: string;
+		buttonColor?: ButtonColor;
+		iconClass?: string;
+		column: ColumnConfig;
+		item: any;
+		actions?: Action[];
+	}
+
+	let {
+		buttonClass = 'border-0 p-1',
+		buttonColor = 'light',
+		iconClass = 'w-4 h-4',
+		column,
+		item,
+		actions = []
+	}: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -78,7 +89,7 @@
 		on:click={() => actionClicked(action)}
 	>
 		{#if action.icon}
-			<svelte:component this={action.icon} class={action.iconClass || iconClass} />
+			<action.icon class={action.iconClass || iconClass} />
 		{/if}
 		{#if action.iconify}
 			<Icon

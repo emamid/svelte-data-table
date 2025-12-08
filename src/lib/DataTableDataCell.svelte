@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
 	import { TableBodyCell } from 'flowbite-svelte';
@@ -11,13 +13,17 @@
 		getDataTableContext,
 	} from './common.js';
 
-	export let column: InternalColumnConfig;
-	export let item: any;
-	export let isCellFocused: boolean;
+	interface Props {
+		column: InternalColumnConfig;
+		item: any;
+		isCellFocused: boolean;
+	}
+
+	let { column, item, isCellFocused }: Props = $props();
 
 	const context = getDataTableContext();
 
-	let span: HTMLSpanElement;
+	let span: HTMLSpanElement = $state();
 
 	const dispatch = createEventDispatcher();
 
@@ -57,13 +63,13 @@
 		}
 	}
 
-	$: {
+	run(() => {
 		if (span && span.parentElement) {
 			span.parentElement.addEventListener('dragover', dragOverHandler);
 			span.parentElement.addEventListener('dragstart', dragStartHandler);
 			span.parentElement.addEventListener('drop', dropHandler);
 		}
-	}
+	});
 
 	onDestroy(() => {
 		if (span && span.parentElement) {
@@ -76,7 +82,7 @@
 
 {#await (column.cellRenderer || defaultCellRenderer)(column, item)}
 	<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)} />
-{:then { dataValue, displayValue }}
+{:then {dataValue, displayValue }}
 	<TableBodyCell
 		draggable={evalRowBoolean(item, column.allowCellDrag)}
 		tdClass={column.getTDClass(item, dataValue, isCellFocused)}
@@ -86,8 +92,7 @@
 			<span style="display:none" bind:this={span}></span>
 		{/if}
 		{#if column.viewComponent}
-			<svelte:component
-				this={column.viewComponent}
+			<column.viewComponent
 				{column}
 				{item}
 				value={dataValue}
@@ -100,8 +105,7 @@
 				{...column.viewComponentConfig}
 			/>
 		{:else if column.focusComponent && isCellFocused}
-			<svelte:component
-				this={column.focusComponent}
+			<column.focusComponent
 				{column}
 				{item}
 				value={dataValue}

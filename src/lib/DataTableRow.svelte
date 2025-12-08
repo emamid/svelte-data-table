@@ -18,17 +18,29 @@
 		InternalColumnConfig,
 	} from './common.js';
 
-	export let allowRowDrag: RowBoolean;
-	export let allowRowDrop: RowDropBoolean;
-	export let columns: InternalColumnConfig[];
-	export let focusedColumnKeyID: any;
-	export let getTRClass: GetTRClassFunction;
-	export let isRowFocused: boolean;
-	export let item: any;
+	interface Props {
+		allowRowDrag: RowBoolean;
+		allowRowDrop: RowDropBoolean;
+		columns: InternalColumnConfig[];
+		focusedColumnKeyID: any;
+		getTRClass: GetTRClassFunction;
+		isRowFocused: boolean;
+		item: any;
+	}
+
+	let {
+		allowRowDrag,
+		allowRowDrop,
+		columns,
+		focusedColumnKeyID,
+		getTRClass,
+		isRowFocused,
+		item
+	}: Props = $props();
 
 	const context = getDataTableContext();
 
-	let span: HTMLSpanElement;
+	let span: HTMLSpanElement = $state();
 
 	const dispatch = createEventDispatcher();
 

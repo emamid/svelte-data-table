@@ -3,8 +3,13 @@
 
 	import type { ColumnConfig } from '../common.js';
 
-	export let item: any = null;
-	export let column: ColumnConfig | null = null;
+	interface Props {
+		item?: any;
+		column?: ColumnConfig | null;
+		children?: import('svelte').Snippet;
+	}
+
+	let { item = null, column = null, children }: Props = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -23,8 +28,8 @@
 	};
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex-->
-<div tabindex="0" on:focus={prevTab} />
-<slot />
-<!-- svelte-ignore a11y-no-noninteractive-tabindex-->
-<div tabindex="0" on:focus={nextTab} />
+<!-- svelte-ignore a11y_no_noninteractive_tabindex-->
+<div tabindex="0" onfocus={prevTab}></div>
+{@render children?.()}
+<!-- svelte-ignore a11y_no_noninteractive_tabindex-->
+<div tabindex="0" onfocus={nextTab}></div>

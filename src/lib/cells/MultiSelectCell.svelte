@@ -1,36 +1,89 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import {
+		getDataTableContext,
+		joinInputClasses,
+	} from '../common';
+	import type {
+		ColumnConfig,
+		DataCellChangedEvent,
+		DataCellEvent,
+	} from '../common';
+	import { activeTheme } from '../themes/active';
 
-	import { MultiSelect } from 'flowbite-svelte';
-	import type { ColumnConfig } from '../common.ts';
 	import TabWrapper from './TabWrapper.svelte';
 
-	export let item: any;
-	export let column: ColumnConfig;
-	export let displayProp: string = 'name';
-	export let valueProp: string = 'id';
-	export let items: any[] = [];
-	export let value: any;
-
-	let newValue = value;
-
-	const dispatch = createEventDispatcher();
-
-	$: if (value !== newValue) {
-		dispatch('cellChanged', {
-			column,
-			item,
-			oldValue: value,
-			newValue: newValue,
-		});
+	interface Props {
+		column: ColumnConfig;
+		item: any;
+		displayProp?: string;
+		valueProp?: string;
+		items: any[];
+		oncellchanged?: (event: DataCellChangedEvent) => void;
+		onnexttab?: (event: DataCellEvent) => void;
+		onprevtab?: (event: DataCellEvent) => void;
+		value: any;
+		[key: string]: any;
 	}
+
+	let {
+		column,
+		item,
+		displayProp = 'name',
+		valueProp = 'id',
+		items,
+		oncellchanged,
+		onnexttab,
+		onprevtab,
+		value,
+		...inputProps
+	}: Props = $props();
+
+	let internalValue = $derived(value);
+	const tableTheme = getDataTableContext()?.theme || {};
+
+	const dispatchCellChanged = () => {
+		if (value !== internalValue) {			
+			oncellchanged?.({
+				column,
+				item,
+				oldValue: value,
+				newValue: internalValue,
+			});
+		}
+	};
+
+	const getClass = (element: string) => joinInputClasses(
+		'select',
+		element, [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	)
 </script>
 
-<TabWrapper {column} {item} on:prevTab on:nextTab>
-	<MultiSelect
-		{...$$props}
-		items={items.map((item) => ({ value: item[valueProp], name: item[displayProp] }))}
-		bind:value={newValue}
+<TabWrapper
+	{column}
+	{item}
+	{onprevtab}
+	{onnexttab}
+>
+	<!-- svelte-ignore a11y_autofocus -->
+	<select
 		autofocus
-	/>
+		class={getClass('select')}
+		multiple
+		onchange={dispatchCellChanged}
+		bind:value={internalValue}
+		{...inputProps}
+	>
+		{#each items as selectItem}
+			<option
+				class={getClass('option')}
+				value={selectItem[valueProp]}
+			>
+				{selectItem[displayProp]}
+			</option>
+		{/each}
+	</select>
 </TabWrapper>

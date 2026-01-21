@@ -1,28 +1,43 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import {
+		getDataTableContext,
+		getInputIcon,
+		joinInputClasses,
+	} from '../common';
+	import type {
+		ColumnConfig,
+		DataCellChangedEvent,
+	} from '../common';
+	import { activeTheme } from '../themes/active';
 
-	import { Button } from 'flowbite-svelte';
-	import { MinusSolid, PlusSolid } from 'flowbite-svelte-icons';
+	import DataTableIcon from '../DataTableIcon.svelte';
 
-	import type { ColumnConfig } from '../common.js';
+	interface Props {
+		column: ColumnConfig;
+		decValue?: number;
+		incValue?: number;
+		item: any;
+		maxValue?: number | undefined;
+		minValue?: number | undefined;
+		oncellchanged?: (event: DataCellChangedEvent) => void;
+		value: any;
+	}
 
-	export let item: any;
-	export let column: ColumnConfig;
-	export let value: any;
-	export let decValue: number = 1;
-	export let incValue: number = 1;
-	export let minValue: number | undefined = undefined;
-	export let maxValue: number | undefined = undefined;
+	let {
+		column,
+		decValue = 1,
+		incValue = 1,
+		item,
+		maxValue = undefined,
+		minValue = undefined,
+		oncellchanged,
+		value,
+	}: Props = $props();
 
-	export let minusIcon: ConstructorOfATypedSvelteComponent = MinusSolid;
-	export let minusIconClass: string = 'pr-1 w-3 h-3';
-	export let plusIcon: ConstructorOfATypedSvelteComponent = PlusSolid;
-	export let plusIconClass: string = 'pr-1 w-3 h-3';
-
-	const dispatch = createEventDispatcher();
+	const tableTheme = getDataTableContext()?.theme || {};
 
 	const decrement = () => {
-		dispatch('cellChanged', {
+		oncellchanged?.({
 			column,
 			item,
 			oldValue: value,
@@ -31,31 +46,56 @@
 	};
 
 	const increment = () => {
-		dispatch('cellChanged', {
+		oncellchanged?.({
 			column,
 			item,
 			oldValue: value,
 			newValue: (value || 0) + incValue,
 		});
 	};
+
+	const getClass = (element: string) => joinInputClasses(
+		'spinner',
+		element, [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	)
+
+	const getIcon = (propName: string) => getInputIcon(
+		'spinner',
+		propName, [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	)
+
+	let divClass = $derived(getClass('div'));
+	let minusButtonClass = $derived(getClass('minusButton'));
+	let plusButtonClass = $derived(getClass('plusButton'));
+
+	let minusIcon = $derived(getIcon('minusIcon'));
+	let plusIcon =$derived(getIcon('plusIcon'));
 </script>
 
-<div class="spinner">
-	<Button
-		color="none"
-		class="pr-1"
-		on:click={decrement}
+<div class={divClass}>
+	<button
 		disabled={minValue !== undefined && value - decValue < minValue}
-		><svelte:component this={minusIcon} class={minusIconClass} /></Button
+		class={minusButtonClass}
+		onclick={decrement}
 	>
+		<DataTableIcon icon={minusIcon}/>
+	</button>
 	{value || 0}
-	<Button
-		color="none"
-		class="pl-1"
-		on:click={increment}
+	<button
 		disabled={maxValue !== undefined && value + incValue > maxValue}
-		><svelte:component this={plusIcon} class={plusIconClass} /></Button
+		class={plusButtonClass}
+		onclick={increment}
 	>
+		<DataTableIcon icon={plusIcon}/>
+	</button>
 </div>
 
 <style>

@@ -1,22 +1,60 @@
 <script lang="ts">
-	import { Button } from 'flowbite-svelte';
+	import {
+		getDataTableContext,
+		joinInputClasses,
+	} from '../common';
+	import type {
+		ColumnConfig,
+		DataCellEvent,
+		IconProp,
+	} from '../common';
+	import { activeTheme } from '../themes/active';
 
-	import type { ColumnConfig } from '@emamid/svelte-data-table';
+	import DataTableIcon from '../DataTableIcon.svelte';
 
-	export let caption: string = '';
-	export let column: ColumnConfig;
-	export let item: any;
-	export let icon: ConstructorOfATypedSvelteComponent | null = null;
-	export let iconClass: string = '';
-	export let iconPosition: 'left' | 'right' = 'right';
+	interface Props {
+		caption?: string;
+		column: ColumnConfig;
+		item: any;
+		icon?: IconProp;
+		iconPosition?: 'left' | 'right';
+		onbutton?: (event: DataCellEvent) => void;
+	}
+
+	let {
+		caption = '',
+		column,
+		item,
+		icon,
+		iconPosition = 'right',
+		onbutton,
+	}: Props = $props();
+
+	const tableTheme = getDataTableContext()?.theme || {};
+
+	const getClass = (element: string) => joinInputClasses(
+		'button',
+		element, [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	)
+
+	const buttonClass = $derived(getClass('button'));
+	const iconClass = $derived(getClass('icon'));
+
 </script>
 
-<Button>
-{#if icon && iconPosition === 'left'}
-<svelte:component this={icon} class={iconClass} />
-{/if}
-{#if caption}{caption}{/if}
-{#if icon && iconPosition === 'right'}
-<svelte:component this={icon} class={iconClass} />
-{/if}
-</Button>
+<button
+	class={buttonClass}
+	onclick={() => onbutton?.({ column, item })}
+>
+	{#if icon && iconPosition === 'left'}
+		<DataTableIcon classes={iconClass} {icon}/>
+	{/if}
+	{#if caption}{caption}{/if}
+	{#if icon && iconPosition === 'right'}
+		<DataTableIcon classes={iconClass} {icon}/>
+	{/if}
+</button>

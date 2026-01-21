@@ -1,23 +1,41 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import {
+		getDataTableContext,
+		joinInputClasses,
+	} from '../common';
+	import type { ColumnConfig, DataCellChangedEvent, DataCellEvent } from '../common';
+	import { activeTheme } from '../themes/active';
 
-	import { NumberInput } from 'flowbite-svelte';
-	import type { ColumnConfig } from '../common.js';
 	import TabWrapper from './TabWrapper.svelte';
 
-	export let item: any;
-	export let column: ColumnConfig;
-	export let value: number;
+	interface Props {
+		column: ColumnConfig;
+		item: any;
+		oncellchanged?: (event: DataCellChangedEvent) => void;		
+		onenterpressed?: (event: DataCellEvent) => void;
+		onnexttab?: (event: DataCellEvent) => void;
+		onprevtab?: (event: DataCellEvent) => void;
+		value: number;
+		[key: string]: any;
+	}
 
-	let internalValue: number;
+	let {
+		column,
+		item,
+		oncellchanged,
+		onenterpressed,
+		onnexttab,
+		onprevtab,
+		value,
+		...inputProps
+	}: Props = $props();
 
-	$: internalValue = value;
-
-	const dispatch = createEventDispatcher();
-
+	let internalValue: number = $derived(value);
+	const tableTheme = getDataTableContext()?.theme || {};
+	
 	const dispatchCellChanged = () => {
 		if (value !== internalValue) {
-			dispatch('cellChanged', {
+			oncellchanged?.({
 				column,
 				item,
 				oldValue: value,
@@ -26,9 +44,9 @@
 		}
 	};
 
-	const keypress = async (event: KeyboardEvent) => {
+	const keypress = (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
-			dispatch('enterPressed', {
+			onenterpressed?.({
 				column,
 				item,
 			});
@@ -37,7 +55,7 @@
 	};
 
 	const prevTab = (_event: any) => {
-		dispatch('prevTab', {
+		onprevtab?.({
 			column,
 			item,
 		});
@@ -45,14 +63,31 @@
 	};
 
 	const nextTab = (_event: any) => {
-		dispatch('nextTab', {
+		onnexttab?.({
 			column,
 			item,
 		});
 		dispatchCellChanged();
 	};
+
+	const inputClass = $derived(joinInputClasses(
+		'numberInput',
+		'input', [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	));
 </script>
 
-<TabWrapper on:prevTab={prevTab} on:nextTab={nextTab}>
-	<NumberInput bind:value={internalValue} {...$$props} on:keypress={keypress} autofocus />
+<TabWrapper column={column} item={item} onprevtab={prevTab} onnexttab={nextTab}>
+	<!-- svelte-ignore a11y_autofocus -->
+	<input
+		autofocus
+		class={inputClass}
+		onkeypress={keypress}
+		type="number"
+		bind:value={internalValue}
+		{...inputProps}
+	/>
 </TabWrapper>

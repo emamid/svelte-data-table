@@ -1,3 +1,4 @@
+<!-- @migration-task Error while migrating Svelte code: $$props is used together with named props in a way that cannot be automatically migrated. -->
 <script lang="ts">
 	import {
 		getDataTableContext,
@@ -10,37 +11,28 @@
 	import { activeTheme } from '../themes/active';
 
 	interface Props {
-		caption?: string;
 		column: ColumnConfig;
 		item: any;
+		maxValue: number;
 		oncellchanged?: (event: DataCellChangedEvent) => void;
-		value: any;
+		value: number;
 		[key: string]: any;
 	}
 
 	let {
-		caption = '',
 		column,
 		item,
+		maxValue,
 		oncellchanged,
 		value,
 		...inputProps
 	}: Props = $props();
 
-	let internalValue = $derived(value);
+	let internalValue: number = $derived(value);
 	const tableTheme = getDataTableContext()?.theme || {};
 
-	const toggleChanged = () => {
-		oncellchanged?.({
-			column,
-			item,
-			oldValue: value,
-			newValue: internalValue,
-		});
-	};
-
 	const getClass = (element: string) => joinInputClasses(
-		'checkbox',
+		'radio',
 		element, [
 			activeTheme,
 			tableTheme,
@@ -48,27 +40,27 @@
 		],
 	)
 
-	const labelClass = $derived(getClass('label'));
+	const spanClass = $derived(getClass('span'));
 	const inputClass = $derived(getClass('input'));
 </script>
 
-{#if caption}
-	<label class={labelClass}>
+<span class={spanClass}>
+	{#each { length: maxValue}, buttonNum}
 		<input
-			bind:checked={internalValue}
+			checked={internalValue === buttonNum + 1}
 			class={inputClass}
-			onchange={toggleChanged}
-			type="checkbox"
+			onchange={() => {
+				internalValue = buttonNum + 1;
+				console.log('Radio selected value:', internalValue);
+				oncellchanged?.({
+					column,
+					item,
+					oldValue: value,
+					newValue: internalValue,
+				});
+			}}
+			type="radio"
 			{...inputProps}
 		/>
-		{caption}
-	</label>
-{:else}
-	<input
-		bind:checked={internalValue}
-		class={inputClass}
-		onchange={toggleChanged}
-		type="checkbox"
-		{...inputProps}
-	/>
-{/if}
+	{/each}
+</span>

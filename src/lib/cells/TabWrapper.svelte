@@ -1,30 +1,25 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import type { ColumnConfig, DataCellEvent } from '../common';
 
-	import type { ColumnConfig } from '../common.js';
+	interface Props {
+		item: any;
+		column: ColumnConfig;
+		children?: import('svelte').Snippet;
+		onnexttab?: (event: DataCellEvent) => void;
+		onprevtab?: (event: DataCellEvent) => void;
+	}
 
-	export let item: any = null;
-	export let column: ColumnConfig | null = null;
-
-	const dispatch = createEventDispatcher();
-
-	const prevTab = (_event: any) => {
-		dispatch('prevTab', {
-			column,
-			item,
-		});
-	};
-
-	const nextTab = (_event: any) => {
-		dispatch('nextTab', {
-			column,
-			item,
-		});
-	};
+	let {
+		item,
+		column,
+		children,
+		onnexttab,
+		onprevtab,
+	}: Props = $props();
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-tabindex-->
-<div tabindex="0" on:focus={prevTab} />
-<slot />
-<!-- svelte-ignore a11y-no-noninteractive-tabindex-->
-<div tabindex="0" on:focus={nextTab} />
+<!-- svelte-ignore a11y_no_noninteractive_tabindex-->
+<div tabindex="0" onfocus={() => onprevtab?.({ column, item })}></div>
+{@render children?.()}
+<!-- svelte-ignore a11y_no_noninteractive_tabindex-->
+<div tabindex="0" onfocus={() => onnexttab?.({ column, item })}></div>

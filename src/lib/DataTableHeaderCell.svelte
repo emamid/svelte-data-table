@@ -1,30 +1,67 @@
 <script lang="ts">
-	import { TableHeadCell } from 'flowbite-svelte';
+	import {
+		getDataTableContext,
+		getPartIcon,
+		joinPartClasses,
+	} from './common';
+	import type {	ColumnConfig } from './common';
+	import { activeTheme } from './themes/active';
+	
+	import DataTableIcon from './DataTableIcon.svelte';
 
-	import type { InternalColumnConfig } from './common.js';
-	import { joinClasses } from './common.js';
+	interface Props {
+		column: ColumnConfig;
+		isSorted?: boolean;
+		onclick?: (event: MouseEvent) => void;
+		reverseSort: boolean;
+	}
 
-	export let column: InternalColumnConfig;
-	export let reverseSort: boolean;
-	export let isSorted: boolean;
-	export let defaultSortAscendingIcon: ConstructorOfATypedSvelteComponent;
-	export let defaultSortDescendingIcon: ConstructorOfATypedSvelteComponent;
-	export let thClass: string;
+	let {
+		column,
+		isSorted,
+		onclick,
+		reverseSort,
+	}: Props = $props();
 
-	const sortAscendingIcon = column.sortAscendingIcon || defaultSortAscendingIcon;
-	const sortDescendingIcon = column.sortDescendingIcon || defaultSortDescendingIcon;
+	const tableTheme = getDataTableContext()?.theme || {};
+
+	const getClasses = (element: string) => joinPartClasses(
+		'headerCell',
+		element, [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	)	
+
+	const getIcon = (propName: string) => getPartIcon(
+		'headerCell',
+		propName, [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	)
+
+	const thClass = $derived(getClasses('th'))
+	const spanClass = $derived(getClasses('span'));
+	const titleSpanClass = $derived(getClasses('titleSpan'))
+	const sortAscendingIcon = $derived(getIcon('sortAscending'));
+	const sortDescendingIcon = $derived(getIcon('sortDescending'));
 </script>
 
-<TableHeadCell
-	class={joinClasses(thClass || column.thClassOverride, column.thClassAppend)}
-	on:click
+<th
+	class={thClass}
+	{onclick}
 >
-	{#if isSorted}
-		{#if reverseSort}
-			<svelte:component this={sortAscendingIcon} class="inline h-3 w-3" />
-		{:else}
-			<svelte:component this={sortDescendingIcon} class="inline h-3 w-3" />
+	<span class={spanClass}>
+		{#if isSorted}
+			{#if reverseSort}
+				<DataTableIcon icon={sortDescendingIcon}/>
+			{:else}
+				<DataTableIcon icon={sortAscendingIcon}/>
+			{/if}
 		{/if}
-	{/if}
-	<span>{column.title}</span>
-</TableHeadCell>
+		<span class={titleSpanClass}>{column.title}</span>
+	</span>
+</th>

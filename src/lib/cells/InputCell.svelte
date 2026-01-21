@@ -1,27 +1,47 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import {
+		getDataTableContext,
+		joinInputClasses,
+	} from '../common';
+	import type {
+		ColumnConfig,
+		DataCellChangedEvent,
+		DataCellEvent,
+	} from '../common';
+	import { activeTheme } from '../themes/active';
 
-	// TODO: Find out why this is not importing correctly
-	// import type { InputType } from 'flowbite-svelte';
-
-	import { Input } from 'flowbite-svelte';
-	import type { ColumnConfig } from '../common.js';
 	import TabWrapper from './TabWrapper.svelte';
 
-	export let inputType: string = 'text';
-	export let item: any;
-	export let column: ColumnConfig;
-	export let value: string;
+	interface Props {
+		column: ColumnConfig;
+		inputType?: string; // InputType;
+		item: any;
+		oncellchanged?: (event: DataCellChangedEvent) => void;
+		onenterpressed?: (event: DataCellEvent) => void;
+		onnexttab?: (event: DataCellEvent) => void;
+		onprevtab?: (event: DataCellEvent) => void;
+		value: string;
+		[key: string]: any;
+	};
 
-	let internalValue: string;
+	let {
+		column,
+		inputType = 'text',
+		item,
+		oncellchanged,
+		onenterpressed,
+		onnexttab,
+		onprevtab,
+		value,
+		...inputProps
+	}: Props = $props();
 
-	$: internalValue = value;
-
-	const dispatch = createEventDispatcher();
+	let internalValue = $derived(value);
+	const tableTheme = getDataTableContext()?.theme || {};
 
 	const dispatchCellChanged = () => {
-		if (value !== internalValue) {
-			dispatch('cellChanged', {
+		if (value !== internalValue) {			
+			oncellchanged?.({
 				column,
 				item,
 				oldValue: value,
@@ -32,7 +52,7 @@
 
 	const keypress = (event: KeyboardEvent) => {
 		if (event.key === 'Enter') {
-			dispatch('enterPressed', {
+			onenterpressed?.({
 				column,
 				item,
 			});
@@ -41,7 +61,7 @@
 	};
 
 	const prevTab = (_event: any) => {
-		dispatch('prevTab', {
+		onprevtab?.({
 			column,
 			item,
 		});
@@ -49,20 +69,31 @@
 	};
 
 	const nextTab = (_event: any) => {
-		dispatch('nextTab', {
+		onnexttab?.({
 			column,
 			item,
 		});
 		dispatchCellChanged();
 	};
+
+	const inputClass = $derived(joinInputClasses(
+		'input',
+		'input', [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	));
 </script>
 
-<TabWrapper on:prevTab={prevTab} on:nextTab={nextTab}>
-	<Input
+<TabWrapper column={column} item={item} onprevtab={prevTab} onnexttab={nextTab}>
+	<!-- svelte-ignore a11y_autofocus -->
+	<input
+		autofocus
+		class={inputClass}
+		onkeypress={keypress}
 		type={inputType}
 		bind:value={internalValue}
-		{...$$props}
-		on:keypress={keypress}
-		autofocus
+		{...inputProps}
 	/>
 </TabWrapper>

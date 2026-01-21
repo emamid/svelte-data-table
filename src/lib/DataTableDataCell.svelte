@@ -1,122 +1,176 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy } from 'svelte';
-
-	import { TableBodyCell } from 'flowbite-svelte';
-
-	import type {	InternalColumnConfig	} from './common.js';
+	import type {
+		ActionEvent,
+		ColumnConfig,
+		DataCellChangedEvent,
+		DataCellDragEvent,
+		DataCellDropEvent,
+		DataCellEvent,
+		DataCellMouseEvent,
+	} from './common';
 	import {
 		defaultCellRenderer,
 		evalCellDropBoolean,
 		evalRowBoolean,
 		getDataTableContext,
-	} from './common.js';
-
-	export let column: InternalColumnConfig;
-	export let item: any;
-	export let isCellFocused: boolean;
-
-	const context = getDataTableContext();
-
-	let span: HTMLSpanElement;
-
-	const dispatch = createEventDispatcher();
-
-	const dragOverHandler = (event: DragEvent) => {
-		const { draggedColumn, draggedItem} = context;
-		event.preventDefault();
-		const canDrop = evalCellDropBoolean(draggedItem, draggedColumn, item, column.allowCellDrop);
-		if (canDrop) {
-			event.preventDefault();
-			if (event.dataTransfer) {
-				event.dataTransfer.dropEffect = 'move';
-			}
-		}
+		joinPartClasses,
+	} from './common';
+	import { activeTheme } from './themes/active';
+	
+	interface Props {
+		column: ColumnConfig;
+		item: any;
+		isCellFocused: boolean;
+		onaction?: (event: ActionEvent) => void;
+		onbutton?: (event: DataCellEvent) => void;
+		oncellchanged?: (event: DataCellChangedEvent) => void;
+		oncelldragend?: (event: DataCellDragEvent) => void;
+		oncelldragstart?: (event: DataCellDragEvent) => void;
+		oncelldropped?: (event: DataCellDropEvent) => void;
+		onclick?: (event: DataCellMouseEvent) => void;
+		onenterpressed?: (event: DataCellEvent) => void;
+		onnexttab?: (event: DataCellEvent) => void;
+		onprevtab?: (event: DataCellEvent) => void;
 	}
 
-	const dragStartHandler = (dragEvent: DragEvent) => {
-		context.draggedColumn = column;	
-		context.draggedItem = item;	
-		dispatch('cellDragStart', {
-			dragEvent,
+	let {
+		column,
+		item,
+		isCellFocused,
+		onaction,
+		onbutton,
+		oncellchanged,
+		oncelldragend,
+		oncelldragstart,
+		oncelldropped,
+		onclick,
+		onenterpressed,
+		onnexttab,
+		onprevtab,
+	}: Props = $props();
+
+	const context = getDataTableContext();
+	const tableTheme = context.theme || {};
+
+	const baseTDClass = $derived(joinPartClasses(
+		'dataCell',
+		'td', [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+		isCellFocused,
+	));
+
+	const click = (event: MouseEvent) => {
+		onclick?.({
+			...event,
+			column,
+			item,
+		});
+	}
+
+	const dragEnd = (event: DragEvent) => {
+		oncelldragend?.({
+			...event,
 			sourceColumn: column,
 			sourceItem: item,
 		})
 	}
 
-	const dropHandler = (event: DragEvent) => {
+	const dragOver = (event: DragEvent) => {
 		const { draggedColumn, draggedItem} = context;
+		event.preventDefault();
 		const canDrop = evalCellDropBoolean(draggedItem, draggedColumn, item, column.allowCellDrop);
-		if (canDrop) {
-			event.preventDefault();
-			dispatch('cellDropped', {
-				sourceColumn: draggedColumn,
-				sourceItem: draggedItem,
-				targetColumn: column,
-				targetItem: item,
-			})
+
+		if (!canDrop) {
+			return;
+		}
+
+		event.preventDefault();
+		if (event.dataTransfer) {
+			event.dataTransfer.dropEffect = 'move';
 		}
 	}
 
-	$: {
-		if (span && span.parentElement) {
-			span.parentElement.addEventListener('dragover', dragOverHandler);
-			span.parentElement.addEventListener('dragstart', dragStartHandler);
-			span.parentElement.addEventListener('drop', dropHandler);
-		}
+	const dragStart = (dragEvent: DragEvent) => {
+		oncelldragstart?.({
+			...dragEvent,
+			sourceColumn: column,
+			sourceItem: item,
+		});
 	}
 
-	onDestroy(() => {
-		if (span && span.parentElement) {
-			span.parentElement.removeEventListener('dragover', dragOverHandler);
-			span.parentElement.removeEventListener('dragstart', dragStartHandler);
-			span.parentElement.removeEventListener('drop', dropHandler);
+	const drop = (event: DragEvent) => {
+		const { draggedColumn, draggedItem} = context;
+		if (!draggedItem || !draggedColumn) {
+			return;		
 		}
-	})
+
+		const canDrop = evalCellDropBoolean(draggedItem, draggedColumn, item, column.allowCellDrop);
+		if (!canDrop) {
+			return;
+		}
+
+		event.preventDefault();
+
+		oncelldropped?.({
+			...event,
+			sourceColumn: draggedColumn,
+			sourceItem: draggedItem,
+			targetColumn: column,
+			targetItem: item,
+		});
+	}
+
+	// const getClass = $derived((value: any) => column.tdClassGetter ? column.tdClassGetter(item, column, value, isCellFocused, baseTDClass) : baseTDClass);
+
 </script>
 
-{#await (column.cellRenderer || defaultCellRenderer)(column, item)}
-	<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)} />
-{:then { dataValue, displayValue }}
-	<TableBodyCell
+{#await (column.cellRenderer || defaultCellRenderer)(column, item, isCellFocused, baseTDClass)}
+	<td class={baseTDClass}></td>
+{:then { dataValue, displayValue, focusComponentConfig, tdClass, viewComponentConfig }}
+	<td
 		draggable={evalRowBoolean(item, column.allowCellDrag)}
-		tdClass={column.getTDClass(item, dataValue, isCellFocused)}
-		on:click
+		class={tdClass || baseTDClass}
+		onclick={click}
+		ondragend={dragEnd}
+		ondragover={dragOver}
+		ondragstart={dragStart}
+		ondrop={drop}
 	>
-		{#if !!column.allowCellDrag || !!column.allowCellDrop}
-			<span style="display:none" bind:this={span}></span>
-		{/if}
 		{#if column.viewComponent}
-			<svelte:component
-				this={column.viewComponent}
+			<column.viewComponent
 				{column}
 				{item}
 				value={dataValue}
-				on:action
-				on:cellChanged
-				on:click
-				on:enterPressed
-				on:prevTab
-				on:nextTab
-				{...column.viewComponentConfig}
+				{onaction}
+				{onbutton}
+				{oncellchanged}
+				onclick={click}
+				{onenterpressed}
+				{onprevtab}
+				{onnexttab}
+				{...(viewComponentConfig || column.viewComponentConfig)}
 			/>
 		{:else if column.focusComponent && isCellFocused}
-			<svelte:component
-				this={column.focusComponent}
+			<column.focusComponent
 				{column}
 				{item}
 				value={dataValue}
-				on:action
-				on:cellChanged
-				on:click
-				on:enterPressed
-				on:prevTab
-				on:nextTab
-				{...column.focusComponentConfig}
+				{onaction}
+				{onbutton}
+				{oncellchanged}
+				onclick={click}
+				{onenterpressed}
+				{onprevtab}
+				{onnexttab}
+				{...(focusComponentConfig || column.focusComponentConfig)}
 			/>
 		{:else}
 			{displayValue}
 		{/if}
-	</TableBodyCell>
+	</td>
 {:catch}
-	<TableBodyCell tdClass={column.getTDClass(item, '', isCellFocused)} />
+	<td class={baseTDClass}></td>
 {/await}

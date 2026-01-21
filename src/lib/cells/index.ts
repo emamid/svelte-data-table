@@ -13,14 +13,11 @@ export * from './NumberInputCell.svelte';
 export { default as NumberInputCell } from './NumberInputCell.svelte';
 export * from './RangeCell.svelte';
 export { default as RangeCell } from './RangeCell.svelte';
-export * from './RatingCell.svelte';
-export { default as RatingCell } from './RatingCell.svelte';
+export * from './RadioCell.svelte';
+export { default as RadioCell } from './RadioCell.svelte';
 export * from './SelectCell.svelte';
 export { default as SelectCell } from './SelectCell.svelte';
 export * from './SpinCell.svelte';
 export { default as SpinCell } from './SpinCell.svelte';
 export * from './TabWrapper.svelte';
 export { default as TabWrapper } from './TabWrapper.svelte';
-export * from './ToggleCell.svelte';
-export { default as ToggleCell } from './ToggleCell.svelte';
-

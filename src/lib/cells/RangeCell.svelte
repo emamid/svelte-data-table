@@ -1,27 +1,68 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import {
+		getDataTableContext,
+		joinInputClasses,
+	} from '../common';	
+	import type {
+		ColumnConfig,
+		DataCellChangedEvent,
+	} from '../common.ts';
+	import { activeTheme } from '../themes/active';
 
-	import { Range } from 'flowbite-svelte';
+	interface Props {
+		caption?: string;
+		column: ColumnConfig;
+		item: any;
+		max: number;
+		min: number;
+		oncellchanged?: (event: DataCellChangedEvent) => void;
+		value: number;
+		[key: string]: any;
+	};
 
-	import type { ColumnConfig } from '../common.ts';
+	let {
+		caption,
+		column,
+		inputType = 'text',
+		item,
+		max = 100,
+		min = 0,
+		oncellchanged,
+		value,
+		...inputProps
+	}: Props = $props();
 
-	export let caption: string = '';
-	export let column: ColumnConfig;
-	export let item: any;
-	export let value: any;
-
-	let localValue: any = value;
-
-	const dispatch = createEventDispatcher();
+	let internalValue = $derived(value);
+	const tableTheme = getDataTableContext()?.theme || {};
 
 	const changed = () => {
-		dispatch('cellChanged', {
-			column,
-			item,
-			oldValue: value,
-			newValue: localValue,
-		});
+		if (value !== internalValue) {			
+			oncellchanged?.({
+				column,
+				item,
+				oldValue: value,
+				newValue: internalValue,
+			});
+		}
 	};
+
+	const inputClass = $derived(joinInputClasses(
+		'range',
+		'input', [
+			activeTheme,
+			tableTheme,
+			column.theme,
+		],
+	))
 </script>
 
-<Range {...$$props} bind:value={localValue} on:change={changed}>{#if caption}{caption}{/if}</Range>
+<input
+	class={inputClass}
+	{max}
+	{min}
+	onchange={changed}
+	type="range"
+	bind:value={internalValue}
+	{...inputProps}
+/>
+{#if caption}{caption}{/if}	

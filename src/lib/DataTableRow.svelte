@@ -1,42 +1,90 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-
-	import { TableBodyRow } from 'flowbite-svelte';
-
+	import { activeTheme } from './themes/active';
 	import DataTableDataCell from './DataTableDataCell.svelte';
 	import {
 		evalRowDropBoolean,
 		evalRowBoolean,
 		getColumnID,
 		getDataTableContext,
-	} from './common.js';
+		joinPartClasses,
+	} from './common';
 	import type {
+		ActionEvent,
 		ColumnConfig,
+		DataCellChangedEvent,
+		DataCellDragEvent,
+		DataCellDropEvent,
+		DataCellEvent,
+		DataCellMouseEvent,
 		RowBoolean,
+		RowClassFunction,
+		RowDragEvent,
 		RowDropBoolean,
-		GetTRClassFunction,
-		InternalColumnConfig,
-	} from './common.js';
+		RowDropEvent,
+		RowEvent,
+	} from './common';
 
-	export let allowRowDrag: RowBoolean;
-	export let allowRowDrop: RowDropBoolean;
-	export let columns: InternalColumnConfig[];
-	export let focusedColumnKeyID: any;
-	export let getTRClass: GetTRClassFunction;
-	export let isRowFocused: boolean;
-	export let item: any;
+	interface Props {
+		allowRowDrag: RowBoolean;
+		allowRowDrop: RowDropBoolean;
+		columns: ColumnConfig[];
+		focusedColumnKeyID: any;
+		isRowFocused: boolean;
+		item: any;
+		onaction?: (event: ActionEvent) => void;
+		onbutton?: (event: DataCellEvent) => void;
+		oncellchanged?: (event: DataCellChangedEvent) => void;
+		oncellclick?: (event: DataCellMouseEvent) => void;
+		oncelldragend?: (event: DataCellDragEvent) => void;
+		oncelldragstart?: (event: DataCellDragEvent) => void;
+		oncelldropped?: (event: DataCellDropEvent) => void;
+		ondragend?: (event: RowDragEvent) => void;
+		ondragstart?: (event: RowDragEvent) => void;
+		ondropped?: (event: RowDropEvent) => void;
+		onenterpressed?: (event: DataCellEvent) => void;
+		onnexttab?: (event: DataCellEvent) => void;
+		onprevtab?: (event: DataCellEvent) => void;
+		onrowclick?: (event: RowEvent) => void;
+		trClassGetter?: RowClassFunction;
+	}
+
+	let {
+		allowRowDrag,
+		allowRowDrop,
+		columns,
+		focusedColumnKeyID,
+		isRowFocused,
+		item,
+		onaction,
+		onbutton,
+		oncellchanged,
+		oncellclick,
+		oncelldragend,
+		oncelldragstart,
+		oncelldropped,
+		ondragend,
+		ondragstart,
+		ondropped,
+		onenterpressed,
+		onnexttab,
+		onprevtab,
+		onrowclick,
+		trClassGetter,
+	}: Props = $props();
 
 	const context = getDataTableContext();
+	const tableTheme = context.theme || {};
 
-	let span: HTMLSpanElement;
+	const rowClicked = () => onrowclick?.({ item });
 
-	const dispatch = createEventDispatcher();
+	const dragEnd = (event: DragEvent) => {
+		ondragend?.({
+			...event,
+			sourceItem: item,
+		})
+	}
 
-	const cellClicked = (column: ColumnConfig) => dispatch('cellClicked', { column, item });
-
-	const rowClicked = () => dispatch('rowClicked', { item });
-
-	const dragOverHandler = (event: DragEvent) => {
+	const dragOver = (event: DragEvent) => {
 		const { draggedItem } = context;
 		const canDrop = evalRowDropBoolean(draggedItem, item, allowRowDrop);
 		if (canDrop) {
@@ -47,53 +95,52 @@
 		}
 	}
 
-	const dragStartHandler = (dragEvent: DragEvent) => {
-		context.draggedColumn = undefined;
-		context.draggedItem = item;
-		dispatch('rowDragStart', {
-			dragEvent,
+	const dragStart = (dragEvent: DragEvent) => {
+		if (context.dragType) {
+			return;
+		}
+		ondragstart?.({
+			...dragEvent,
 			sourceItem: item,
-		})
+		});
 	}
 
-	const dropHandler = (event: DragEvent) => {
+	const drop = (event: DragEvent) => {
 		const { draggedItem } = context;
 		const canDrop = evalRowDropBoolean(draggedItem, item, allowRowDrop);
-		if (canDrop) {
-			event.preventDefault();
-			dispatch('rowDropped', {
-				sourceItem: draggedItem,
-				targetItem: item,
-			})
+		if (!canDrop) {
+			return;
 		}
+
+		event.preventDefault();
+		ondropped?.({
+			...event,
+			sourceItem: draggedItem,
+			targetItem: item,
+		});
 	}
 
-	onMount(() => {
-		if (span && span.parentElement) {
-			span.parentElement.addEventListener('click', rowClicked);
-			span.parentElement.addEventListener('dragover', dragOverHandler);
-			span.parentElement.addEventListener('dragstart', dragStartHandler);
-			span.parentElement.addEventListener('drop', dropHandler);
-		}
-	})
+	const baseTRClass = $derived(joinPartClasses(
+		'row',
+		'tr', [
+			activeTheme,
+			tableTheme,
+		],
+		isRowFocused,
+	));
 
-	onDestroy(() => {
-		if (span && span.parentElement) {
-			span.parentElement.removeEventListener('click', rowClicked);
-			span.parentElement.removeEventListener('dragover', dragOverHandler);
-			span.parentElement.removeEventListener('dragstart', dragStartHandler);
-			span.parentElement.removeEventListener('drop', dropHandler);
-		}
-	})
+	const trClass = $derived(trClassGetter ? trClassGetter(item, isRowFocused, baseTRClass) : baseTRClass);
 </script>
 
-<TableBodyRow
-	class={getTRClass(item, isRowFocused)}
+<tr
+	class={trClass}
 	draggable={evalRowBoolean(item, allowRowDrag)}
+	onclick={rowClicked}
+	ondragend={dragEnd}
+	ondragover={dragOver}
+	ondragstart={dragStart}
+	ondrop={drop}
 >
-	{#if !!allowRowDrag || !!allowRowDrop}
-		<span style="display:none" bind:this={span}></span>
-	{/if}
 	{#each columns as column}
 		{@const isCellFocused =
 			isRowFocused && focusedColumnKeyID && focusedColumnKeyID === getColumnID(column)}
@@ -101,14 +148,16 @@
 			{column}
 			{isCellFocused}
 			{item}
-			on:click={() => cellClicked(column)}
-			on:enterPressed
-			on:prevTab
-			on:nextTab
-			on:action
-			on:cellChanged
-			on:cellDragStart
-			on:cellDropped
+			{onaction}
+			{onbutton}
+			{oncellchanged}
+			{oncelldragend}
+			{oncelldragstart}
+			{oncelldropped}
+			onclick={oncellclick}
+			{onenterpressed}
+			{onnexttab}
+			{onprevtab}
 		/>
 	{/each}
-</TableBodyRow>
+</tr>

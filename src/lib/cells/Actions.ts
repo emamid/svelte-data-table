@@ -1,17 +1,4 @@
-import {
-	ArrowDownSolid,
-	ArrowUpSolid,
-	BellActiveOutline,
-	BookmarkOutline,
-	CogOutline,
-	EditOutline,
-	HeartSolid,
-	InfoCircleOutline,
-	ShareNodesOutline,
-	TrashBinOutline,
-} from 'flowbite-svelte-icons';
-
-import type { Action } from './ActionsCell.svelte';
+import type { Action } from '../common';
 
 /**
  * @constant bookmarkAction
@@ -20,7 +7,7 @@ import type { Action } from './ActionsCell.svelte';
  * @property {ConstructorOfATypedSvelteComponent} icon - BookmarkOutline
 */
 export const bookmarkAction: Action = {
-	icon: BookmarkOutline,
+	icon: '🔖',
 	name: 'bookmark',
 };
 
@@ -31,7 +18,7 @@ export const bookmarkAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - TrashBinOutline
 */
 export const deleteAction: Action = {
-	icon: TrashBinOutline,
+	icon: '🗑',
 	name: 'delete',
 };
 
@@ -42,7 +29,7 @@ export const deleteAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - ArrowDownSolid
 */
 export const downAction: Action = {
-	icon: ArrowDownSolid,
+	icon: '▼',
 	name: 'down',
 };
 
@@ -53,7 +40,7 @@ export const downAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - EditOutline
 */
 export const editAction: Action = {
-	icon: EditOutline,
+	icon: '✎',
 	name: 'edit',
 };
 
@@ -64,7 +51,7 @@ export const editAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - HeartSolid
 */
 export const favoriteAction: Action = {
-	icon: HeartSolid,
+	icon: '♥',
 	name: 'favorite',
 };
 
@@ -75,7 +62,7 @@ export const favoriteAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - InfoCircleOutline
 */
 export const infoAction: Action = {
-	icon: InfoCircleOutline,
+	icon: 'ℹ',
 	name: 'info',
 };
 
@@ -86,7 +73,7 @@ export const infoAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - BellActiveOutline
 */
 export const notificationAction: Action = {
-	icon: BellActiveOutline,
+	icon: '🔔',
 	name: 'notification',
 };
 
@@ -97,7 +84,7 @@ export const notificationAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - CogOutline
 */
 export const settingsAction: Action = {
-	icon: CogOutline,
+	icon: '⚙',
 	name: 'settings',
 };
 
@@ -108,7 +95,7 @@ export const settingsAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - ShareNodesOutline
 */
 export const shareAction: Action = {
-	icon: ShareNodesOutline,
+	icon: '<',
 	name: 'share',
 };
 
@@ -119,6 +106,6 @@ export const shareAction: Action = {
  * @property {ConstructorOfATypedSvelteComponent} icon - UpArrowSolid
 */
 export const upAction: Action = {
-	icon: ArrowUpSolid,
+	icon: '▲',
 	name: 'up',
 };

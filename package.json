@@ -1,6 +1,6 @@
 {
 	"name": "@emamid/svelte-data-table",
-	"version": "0.0.22",
+	"version": "1.0.00",
 	"homepage": "https://github.com/emamid/svelte-data-table",
 	"scripts": {
 		"dev": "vite dev",
@@ -29,7 +29,6 @@
 		"svelte": "^5.0.0"
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.2.430",
 		"@iconify/svelte": "^5.2.1",
 		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/kit": "^2.50.0",

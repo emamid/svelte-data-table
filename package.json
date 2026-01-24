@@ -2,6 +2,7 @@
 	"name": "@emamid/svelte-data-table",
 	"version": "1.0.1",
 	"homepage": "https://github.com/emamid/svelte-data-table",
+	"repository": "github:emamid/svelte-data-table",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run package",

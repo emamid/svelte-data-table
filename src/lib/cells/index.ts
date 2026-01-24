@@ -1,4 +1,4 @@
-export * from './Actions.js';
+export * from './Actions.ts';
 export * from './ActionsCell.svelte';
 export { default as ActionsCell } from './ActionsCell.svelte';
 export * from './ButtonCell.svelte';
@@ -11,10 +11,10 @@ export * from './MultiSelectCell.svelte';
 export { default as MultiSelectCell } from './MultiSelectCell.svelte';
 export * from './NumberInputCell.svelte';
 export { default as NumberInputCell } from './NumberInputCell.svelte';
-export * from './RangeCell.svelte';
-export { default as RangeCell } from './RangeCell.svelte';
 export * from './RadioCell.svelte';
 export { default as RadioCell } from './RadioCell.svelte';
+export * from './RangeCell.svelte';
+export { default as RangeCell } from './RangeCell.svelte';
 export * from './SelectCell.svelte';
 export { default as SelectCell } from './SelectCell.svelte';
 export * from './SpinCell.svelte';

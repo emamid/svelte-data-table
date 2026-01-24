@@ -6,8 +6,8 @@ export { default as DataTableHeaderCell } from './DataTableHeaderCell.svelte';
 export { default as DataTableIcon } from './DataTableIcon.svelte';
 export { default as DataTableRow } from './DataTableRow.svelte';
 
-export * from './common.ts';
-export * from './cells/index.ts';
-export * from './themes/index.ts'
+export * from './common.js';
+export * from './cells/index.js';
+export * from './themes/index.js'
 
 export default DataTable;

@@ -1,6 +1,6 @@
 {
 	"name": "@emamid/svelte-data-table",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"homepage": "https://github.com/emamid/svelte-data-table",
 	"repository": "github:emamid/svelte-data-table",
 	"scripts": {

@@ -7,29 +7,78 @@
 		{
 			canSort: true,
 			key: 'name',
-			title: 'Name',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
+			theme: {
+				parts: {
+					dataCell: {
+						td: {
+							append: 'w-40',
+						},
+					},
+					headerCell: {
+						th: {
+							append: 'w-40',
+						},						
+					},
+				},
+			},
+			title: 'Name',			
 		},
 		{
 			canSort: true,
 			key: 'fingers',
+			theme: {
+				parts: {
+					dataCell: {
+						td: {
+							append: 'text-right w-10',
+						},
+					},
+					headerCell: {
+						th: {
+							append: 'w-10',
+						},						
+					},
+				},
+			},
 			title: 'Fingers',
-			tdClassAppend: 'text-right w-10',
-			thClassAppend: 'text-right w-10',
 		},
 		{
 			canSort: true,
 			key: 'level',
+			theme: {
+				parts: {
+					dataCell: {
+						td: {
+							append: 'text-right w-24',
+						},
+					},
+					headerCell: {
+						th: {
+							append: 'w-24',
+						},						
+					},
+				},
+			},
 			title: 'Level',
-			tdClassAppend: 'text-right w-10',
-			thClassAppend: 'text-right w-10',
 		},
 		{
+			canSort: true,
 			key: 'dead',
+			theme: {
+				parts: {
+					dataCell: {
+						td: {
+							append: 'text-center w-10',
+						},
+					},
+					headerCell: {
+						th: {
+							append: 'w-10',
+						},						
+					},
+				},
+			},
 			title: 'Dead',
-			tdClassAppend: 'text-center w-10',
-			thClassAppend: 'text-center w-10',
 		}
 	]
 </script>
@@ -38,7 +87,6 @@
 	<DataTable
 		{columns}
 		items={characters}
-		divClassAppend="h-full"
 		sortKey="name"
 	/>
 </main>

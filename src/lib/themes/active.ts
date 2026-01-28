@@ -1,7 +1,7 @@
 import { merge } from 'lodash';
-import type { DataTableTheme } from '../common'
+import type { DataTableTheme } from '../common.js'
 
-import { defaultTheme } from './default';
+import { defaultTheme } from './default.js';
 
 export let activeTheme = defaultTheme;
 

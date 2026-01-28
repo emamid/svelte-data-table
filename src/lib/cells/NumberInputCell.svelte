@@ -2,9 +2,9 @@
 	import {
 		getDataTableContext,
 		joinInputClasses,
-	} from '../common';
-	import type { ColumnConfig, DataCellChangedEvent, DataCellEvent } from '../common';
-	import { activeTheme } from '../themes/active';
+	} from '../common.js';
+	import type { ColumnConfig, DataCellChangedEvent, DataCellEvent } from '../common.ts';
+	import { activeTheme } from '../themes/active.js';
 
 	import TabWrapper from './TabWrapper.svelte';
 

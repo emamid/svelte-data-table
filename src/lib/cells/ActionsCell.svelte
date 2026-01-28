@@ -2,13 +2,13 @@
 	import {
 		getDataTableContext,
 		joinInputClasses,
-	} from '../common';
+	} from '../common.js';
 	import type {
 		Action,
 		ActionEvent,
 		ColumnConfig,
-	} from '../common';
-	import { activeTheme } from '../themes/active';
+	} from '../common.ts';
+	import { activeTheme } from '../themes/active.js';
 
 	import DataTableIcon from '../DataTableIcon.svelte';
 

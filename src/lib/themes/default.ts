@@ -1,4 +1,4 @@
-import type { DataTableTheme } from '../common'
+import type { DataTableTheme } from '../common.js'
 
 export const defaultTheme: DataTableTheme = {
 	inputs: {

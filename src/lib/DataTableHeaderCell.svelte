@@ -3,9 +3,9 @@
 		getDataTableContext,
 		getPartIcon,
 		joinPartClasses,
-	} from './common';
-	import type {	ColumnConfig } from './common';
-	import { activeTheme } from './themes/active';
+	} from './common.js';
+	import type {	ColumnConfig } from './common.ts';
+	import { activeTheme } from './themes/active.js';
 	
 	import DataTableIcon from './DataTableIcon.svelte';
 

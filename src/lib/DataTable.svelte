@@ -20,15 +20,15 @@
 		RowDropEvent,
 		RowEvent,
 		SortFunction,
-	} from './common';
+	} from './common.ts';
 
 	import {
 		dataTableContextName,
 		getColumnID,
 		joinPartClasses,
-	} from './common';
+	} from './common.js';
 
-	import { activeTheme } from './themes';
+	import { activeTheme } from './themes/active.js';
 	
 	import DataTableHeaderCell from './DataTableHeaderCell.svelte';
 	import DataTableRow from './DataTableRow.svelte';

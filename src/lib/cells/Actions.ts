@@ -1,4 +1,4 @@
-import type { Action } from '../common';
+import type { Action } from '../common.ts';
 
 /**
  * @constant bookmarkAction

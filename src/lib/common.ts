@@ -237,6 +237,7 @@ type Inputs = {
 }
 
 export type DataTableColumnTheme = {
+	inputs?: Inputs;
 	parts?: ColumnParts;
 }
 

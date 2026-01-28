@@ -2,12 +2,12 @@
 	import {
 		getDataTableContext,
 		joinInputClasses,
-	} from '../common';	
+	} from '../common.js';	
 	import type {
 		ColumnConfig,
 		DataCellChangedEvent,
 	} from '../common.ts';
-	import { activeTheme } from '../themes/active';
+	import { activeTheme } from '../themes/active.js';
 
 	interface Props {
 		caption?: string;

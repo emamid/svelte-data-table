@@ -7,15 +7,15 @@
 		DataCellDropEvent,
 		DataCellEvent,
 		DataCellMouseEvent,
-	} from './common';
+	} from './common.js';
 	import {
 		defaultCellRenderer,
 		evalCellDropBoolean,
 		evalRowBoolean,
 		getDataTableContext,
 		joinPartClasses,
-	} from './common';
-	import { activeTheme } from './themes/active';
+	} from './common.ts';
+	import { activeTheme } from './themes/active.js';
 	
 	interface Props {
 		column: ColumnConfig;

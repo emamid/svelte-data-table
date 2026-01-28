@@ -3,12 +3,12 @@
 		getDataTableContext,
 		getInputIcon,
 		joinInputClasses,
-	} from '../common';
+	} from '../common.js';
 	import type {
 		ColumnConfig,
 		DataCellChangedEvent,
-	} from '../common';
-	import { activeTheme } from '../themes/active';
+	} from '../common.ts';
+	import { activeTheme } from '../themes/active.js';
 
 	import DataTableIcon from '../DataTableIcon.svelte';
 

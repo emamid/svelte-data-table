@@ -22,7 +22,7 @@
 		RowDropBoolean,
 		RowDropEvent,
 		RowEvent,
-	} from './common.ts';
+	} from './common.js';
 
 	interface Props {
 		allowRowDrag: RowBoolean;

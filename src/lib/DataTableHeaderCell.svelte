@@ -4,7 +4,7 @@
 		getPartIcon,
 		joinPartClasses,
 	} from './common.js';
-	import type {	ColumnConfig } from './common.ts';
+	import type {	ColumnConfig } from './common.js';
 	import { activeTheme } from './themes/active.js';
 	
 	import DataTableIcon from './DataTableIcon.svelte';

@@ -14,7 +14,7 @@
 		evalRowBoolean,
 		getDataTableContext,
 		joinPartClasses,
-	} from './common.ts';
+	} from './common.js';
 	import { activeTheme } from './themes/active.js';
 	
 	interface Props {

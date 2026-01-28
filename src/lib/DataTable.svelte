@@ -20,7 +20,7 @@
 		RowDropEvent,
 		RowEvent,
 		SortFunction,
-	} from './common.ts';
+	} from './common.js';
 
 	import {
 		dataTableContextName,

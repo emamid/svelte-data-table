@@ -3,7 +3,7 @@
 		getDataTableContext,
 		joinInputClasses,
 	} from '../common.js';
-	import type { ColumnConfig, DataCellChangedEvent, DataCellEvent } from '../common.ts';
+	import type { ColumnConfig, DataCellChangedEvent, DataCellEvent } from '../common.js';
 	import { activeTheme } from '../themes/active.js';
 
 	import TabWrapper from './TabWrapper.svelte';

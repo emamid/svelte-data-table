@@ -7,7 +7,7 @@
 		ColumnConfig,
 		DataCellEvent,
 		IconProp,
-	} from '../common.ts';
+	} from '../common.js';
 	import { activeTheme } from '../themes/active.js';
 
 	import DataTableIcon from '../DataTableIcon.svelte';

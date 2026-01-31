@@ -1,7 +1,9 @@
 <script lang="ts">
-	import DataTable, { InputCell, mergeThemes, NumberInputCell, setActiveTheme, } from '@emamid/svelte-data-table';
+	import DataTable, { InputCell, NumberInputCell } from '@emamid/svelte-data-table';
 	import type { ColumnConfig, DataCellChangedEvent } from '@emamid/svelte-data-table';
+	
 	import { find } from 'lodash';
+
 	import { characters } from '../../data.js';
 
 	const columns: ColumnConfig[] = [
@@ -93,7 +95,6 @@
 			}
 		}
 	};
-
 </script>
 
 <main>	

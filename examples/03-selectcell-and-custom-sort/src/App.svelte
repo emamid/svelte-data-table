@@ -1,6 +1,9 @@
 <script lang="ts">
-	import DataTable, { InputCell, SelectCell, } from '@emamid/svelte-data-table';
-	import type { ColumnConfig } from '@emamid/svelte-data-table';
+	import DataTable, { InputCell, SelectCell } from '@emamid/svelte-data-table';
+	import type { ColumnConfig, DataCellChangedEvent } from '@emamid/svelte-data-table';
+	
+	import { find } from 'lodash';
+
 	import { characters, classes, races, } from '../../data.js';
 
 	const getClassName = (item: any) => classes.find(characterClass => characterClass.id === item.classID)?.name || '';
@@ -9,21 +12,45 @@
 
 	const columns: ColumnConfig[] = [
 		{
-			canSort: true,
-			key: 'name',
-			title: 'Name',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-40 px-4',
-			focusComponent: InputCell,
 			canFocus: true,
+			canSort: true,
+			focusComponent: InputCell,
+			key: 'name',
+			theme: {
+				inputs: {
+					input: {
+						input: {
+							append: 'w-40',
+						},
+					},
+				},
+				parts: {
+					dataCell: {
+						td: {
+							override: 'whitespace-nowrap',
+						},
+					},
+					headerCell: {
+						th: {
+							append: 'w-40',
+						},						
+					},
+				},
+			},
+			title: 'Name',
 		},
 		{
 			key: 'raceID',
 			title: 'Race',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'min-w-[8em]',
+						},
+					},
+				},
+			},
 			focusComponent: SelectCell,
 			focusComponentConfig: {
 				items: races,
@@ -41,9 +68,15 @@
 		{
 			key: 'classID',
 			title: 'Class',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'min-w-[8em]',
+						},
+					},
+				},
+			},
 			focusComponent: SelectCell,
 			focusComponentConfig: {
 				items: classes,
@@ -57,14 +90,19 @@
 			sortFunction: (a: any, b: any) => getClassName(a).localeCompare(getClassName(b)),
 			canFocus: true,
 			canSort: true,
-		}
+		},
 	]
 
-	const cellChanged = (event: CustomEvent) => {
-		const { item, column, newValue } = event.detail;
+	const cellChanged = (event: DataCellChangedEvent) => {
+		const { column, item, newValue } = event;
 		const { key } = column;
-		(characters[characters.indexOf(item)] as any)[key] = newValue;
-	}
+		if (typeof key === 'string') {
+			const targetItem = find(characters, { id: item.id }) as any;
+			if (targetItem) {
+				targetItem[key] = newValue;
+			}
+		}
+	};
 </script>
 
 <main>	
@@ -72,8 +110,7 @@
 		{columns}
 		items={characters}
 		itemKey="id"
-		divClassAppend="h-full"
 		sortKey="name"
-		on:cellChanged={cellChanged}
+		oncellchanged={cellChanged}
 	/>
 </main>

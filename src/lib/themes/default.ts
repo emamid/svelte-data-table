@@ -1,4 +1,4 @@
-import type { DataTableTheme } from '../common.js'
+import type { DataTableTheme } from '../common.js';
 
 export const defaultTheme: DataTableTheme = {
 	inputs: {
@@ -10,9 +10,47 @@ export const defaultTheme: DataTableTheme = {
 				override: 'w-4 h-4',
 			},
 		},
+		button: {
+			button: {
+				override: 'size-full',
+			},
+		},
+		checkbox: {
+			input: {
+				override: 'size-full',
+			},
+		},		
+		input: {
+			input: {
+				override: 'size-full',
+			},
+		},
+		multiSelect: {
+			select: {
+				override: 'size-full',
+			}
+		},
+		numberInput: {
+			input: {
+				override: 'size-full',
+			},
+		},
+		radio: {
+
+		},
+		range: {
+			input: {
+				override: 'size-full',
+			},
+		},
+		select: {
+			select: {
+				override: 'size-full',
+			}
+		},
 		spinner: {
 			div: {
-				override: 'spinner',
+				override: 'size-full spinner',
 			},
 			minusButton: {
 				override: 'pr-1',
@@ -27,10 +65,10 @@ export const defaultTheme: DataTableTheme = {
 	parts: {
 		dataCell: {
 			td: {
-				override: 'px-6 py-4 whitespace-nowrap font-medium',
+				override: 'px-1',
 			},
 			tdFocused: {
-				override: 'px-6 py-4 whitespace-nowrap font-medium',
+				override: 'px-1',
 			},
 		},
 		headerCell: {
@@ -39,7 +77,9 @@ export const defaultTheme: DataTableTheme = {
 			span: {
 				override: 'inline-flex items-center',
 			},
-			th: {},
+			th: {
+				override: 'px-1',
+			},
 			titleSpan: {},
 		},
 		row: {
@@ -51,7 +91,7 @@ export const defaultTheme: DataTableTheme = {
 			},
 			tbody: {},
 			thead: {
-				override: 'text-xs uppercase sticky top-0 z-10',
+				override: 'sticky top-0 z-10',
 			},
 			theadTR: {},
 		},

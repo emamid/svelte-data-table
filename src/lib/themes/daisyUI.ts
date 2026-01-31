@@ -1,48 +1,48 @@
-import type { DataTableTheme } from '../common.js'
+import type { DataTableTheme } from '../common.js';
 
 export const daisyUITheme: DataTableTheme = {
 	inputs: {
 		button: {
 			button: {
-				override: 'btn btn-primary',
+				append: 'btn btn-primary',
 			}
 		},
 		checkbox: {
 			input: {
-				override: 'toggle',
+				append: 'toggle',
 			},
 		},
 		input: {
 			input: {
-				override: 'input',
+				append: 'input',
 			},
 		},
 		multiSelect: {
 			select: {
-				override: 'select',
+				append: 'select',
 			}
 		},
 		numberInput: {
 			input: {
-				override: 'input',
+				append: 'input',
 			},
 		},
 		radio: {
 			input: {
-				override: 'mask mask-star',
+				append: 'mask mask-star',
 			},
 			span: {
-				override: 'rating',
+				append: 'rating',
 			},
 		},
 		range: {
 			input: {
-				override: 'range',
+				append: 'range',
 			},
 		},
 		select: {
 			select: {
-				override: 'select',
+				append: 'select',
 			}
 		},
 	},

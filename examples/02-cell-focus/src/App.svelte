@@ -1,55 +1,108 @@
 <script lang="ts">
-	import DataTable, { InputCell, NumberInputCell, } from '@emamid/svelte-data-table';
-	import type { ColumnConfig } from '@emamid/svelte-data-table';
+	import DataTable, { InputCell, mergeThemes, NumberInputCell, setActiveTheme, } from '@emamid/svelte-data-table';
+	import type { ColumnConfig, DataCellChangedEvent } from '@emamid/svelte-data-table';
+	import { find } from 'lodash';
 	import { characters } from '../../data.js';
 
 	const columns: ColumnConfig[] = [
 		{
+			canFocus: true,
 			canSort: true,
-			key: 'name',
-			title: 'Name',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-40 px-4',
 			focusComponent: InputCell,
-			canFocus: true,
+			key: 'name',
+			theme: {
+				inputs: {
+					input: {
+						input: {
+							append: 'w-40',
+						},
+					},
+				},
+				parts: {
+					dataCell: {
+						td: {
+							override: 'whitespace-nowrap',
+						},
+					},
+					headerCell: {
+						th: {
+							append: 'w-40',
+						},						
+					},
+				},
+			},
+			title: 'Name',
 		},
 		{
+			canFocus: true,
 			canSort: true,
-			key: 'fingers',
-			title: 'Fingers',
-			tdClassAppend: 'text-right w-10',
-			thClassAppend: 'text-right w-10',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
 			focusComponent: NumberInputCell,
-			canFocus: true,
+			key: 'fingers',
+			theme: {
+				parts: {
+					dataCell: {
+						td: {
+							append: 'text-right w-10',
+						},
+						tdFocused: {
+							override: 'whitespace-nowrap w-10',
+						},					
+					},
+					headerCell: {
+						th: {
+							append: 'w-10',
+						},						
+					},
+				},				
+			},
+			title: 'Fingers',
 		},
 		{
+			canFocus: true,
 			canSort: true,
+			focusComponent: NumberInputCell,
 			key: 'level',
 			title: 'Level',
-			tdClassAppend: 'text-right w-10',
-			thClassAppend: 'text-right w-10',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
-			focusComponent: NumberInputCell,
-			canFocus: true,
+			theme: {
+				parts: {
+					dataCell: {
+						td: {
+							append: 'text-right w-24',
+						},
+						tdFocused: {
+							append: 'whitespace-nowrap w-24',
+						},
+					},
+					headerCell: {
+						th: {
+							append: 'w-24',
+						},						
+					},
+				},
+			},
 		},
 	]
 
-	const cellChanged = (event: CustomEvent) => {
-		const { item, column, newValue } = event.detail;
+	const cellChanged = (event: DataCellChangedEvent) => {
+		const { column, item, newValue } = event;
 		const { key } = column;
-		(characters[characters.indexOf(item)] as any)[key] = newValue;
-	}
+		if (typeof key === 'string') {
+			const targetItem = find(characters, { id: item.id }) as any;
+			if (targetItem) {
+				targetItem[key] = newValue;
+			}
+		}
+	};
+
 </script>
 
 <main>	
 	<DataTable
 		{columns}
-		items={characters}
 		itemKey="id"
-		divClassAppend="h-full"
+		items={characters}
+		oncellchanged={cellChanged}
 		sortKey="name"
-		on:cellChanged={cellChanged}
+		theme={{ parts: { table: { table: { append: 'font-medium whitespace-nowrap' } } } }}
 	/>
 </main>

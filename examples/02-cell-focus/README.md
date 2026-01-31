@@ -1,8 +1,8 @@
-# Cell focus component and default sorting example
+# Basic DataTable example
 
-The Name column has an ```InputCell``` focus component, while the Fingers and Level columns have ```NumberInputCell``` focus components. Editing is implemented via the ```cellChanged``` event. All three columns are sortable.
+Just the basic data table with columns and data items, no in-grid components or conditional/computed CSS.
 
-![](../../screenshot-02.png)
+![](../../screenshot-01.png)
 
 ## Installation
 

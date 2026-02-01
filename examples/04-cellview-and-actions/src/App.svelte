@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { Modal } from 'flowbite-svelte';
-	import DataTable, { ActionsCell, deleteAction, infoAction, InputCell, SpinCell, ToggleCell } from '@emamid/svelte-data-table';
-	import type { ColumnConfig } from '@emamid/svelte-data-table';
+	import DataTable, { ActionsCell, deleteAction, infoAction, CheckboxCell, InputCell, SpinCell } from '@emamid/svelte-data-table';
+	import type { ActionEvent, ColumnConfig, DataCellChangedEvent } from '@emamid/svelte-data-table';
+
+	import { find } from 'lodash';
+	
 	import { characters as defaultCharacters, classes, races, } from '../../data.js';
 
 	const getClassName = (item: any) => classes.find(characterClass => characterClass.id === item.classID)?.name || '';
@@ -11,8 +13,6 @@
 	const columns: ColumnConfig[] = [
 		{
 			title: 'Actions',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10',
 			viewComponent: ActionsCell,
 			viewComponentConfig: {
 				actions: [
@@ -25,80 +25,109 @@
 			},
 		},
 		{
-			canSort: true,
-			key: 'name',
-			title: 'Name',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-40 px-4',
-			focusComponent: InputCell,
 			canFocus: true,
+			canSort: true,
+			focusComponent: InputCell,
+			key: 'name',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'w-40',
+						},						
+					},
+				},
+			},
+			title: 'Name',
 		},
 		{
 			canSort: true,
 			key: 'dead',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'w-10',
+						},						
+					},
+				},
+			},
 			title: 'Dead',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10',
-			viewComponent: ToggleCell,
+			viewComponent: CheckboxCell,
 		},
 		{
 			canSort: true,
 			key: 'fingers',
 			title: 'Fingers',
-			thClassAppend: 'text-center w-20',
-			tdClassAppend: 'w-20',
 			viewComponent: SpinCell,
 			viewComponentConfig: {
 				minValue: 0,
 				maxValue: 10,
 			}
-		}
+		},
 	]
 
 	let characters = [...defaultCharacters];
 
+	let infoModal: HTMLDialogElement;
 	let infoModalVisible: boolean = false;
 	let infoItem: any = null;
+
+	const action = (event: ActionEvent) => {
+		const { action, item } = event;
+		if (action.name === 'info') {
+			showInfo(item);
+		}
+		if (action.name === 'delete') {
+			deleteItem(item);
+		}
+	};
+
+
+	const cellChanged = (event: DataCellChangedEvent) => {
+		const { column, item, newValue } = event;
+		const { key } = column;
+		if (typeof key === 'string') {
+			const targetItem = find(characters, { id: item.id }) as any;
+			if (targetItem) {
+				targetItem[key] = newValue;
+			}
+		}
+	};
 
 	const deleteItem = (itemToDelete: any) => {
 		characters = characters.filter(item => item !== itemToDelete);
 	}
 
+	const hideInfo = () => {
+		infoModal.close();
+	}		
+
+	const infoModalClosed = () => {
+		infoItem = null;
+	}
+
 	const showInfo = (item: any) => {
 		infoItem = item;
 		infoModalVisible = true;
-	}
-
-	const action = (event: CustomEvent) => {
-		const { action, item } = event.detail;
-		if (action === 'info') {
-			showInfo(item);
-		}
-		if (action === 'delete') {
-			deleteItem(item);
-		}
-	}
-
-	const cellChanged = (event: CustomEvent) => {
-		const { item, column, newValue } = event.detail;
-		const { key } = column;
-		(characters[characters.indexOf(item)] as any)[key] = newValue;
+		infoModal.showModal();
 	}
 </script>
 
+<dialog bind:this={infoModal} class="flex flex-col items-center p-4" closedby="any" onclose={infoModalClosed}>
+	{#if infoItem}
+		<p>{infoItem.name} {infoItem.dead ? 'was' : 'is'} a level {infoItem.level}
+			{getRaceName(infoItem)} {getClassName(infoItem)}</p>
+		<button autofocus onclick={hideInfo}>Close</button>
+	{/if}
+</dialog>
 <main>
-	<Modal title="Information about {infoItem?.name}" bind:open={infoModalVisible} autoclose outsideclose>
-		<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">{infoItem.name} {infoItem.dead ? 'was' : 'is'} a level {infoItem.level}
-			 {getRaceName(infoItem)} {getClassName(infoItem)}</p>
-	</Modal>		
 	<DataTable
 		{columns}
 		items={characters}
 		itemKey="id"
-		divClassAppend="h-full"
 		sortKey="name"
-		on:action={action}
-		on:cellChanged={cellChanged}
+		onaction={action}
+		oncellchanged={cellChanged}
 	/>
 </main>

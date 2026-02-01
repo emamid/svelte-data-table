@@ -13,19 +13,7 @@
 			focusComponent: InputCell,
 			key: 'name',
 			theme: {
-				inputs: {
-					input: {
-						input: {
-							append: 'w-40',
-						},
-					},
-				},
 				parts: {
-					dataCell: {
-						td: {
-							override: 'whitespace-nowrap',
-						},
-					},
 					headerCell: {
 						th: {
 							append: 'w-40',
@@ -42,14 +30,6 @@
 			key: 'fingers',
 			theme: {
 				parts: {
-					dataCell: {
-						td: {
-							append: 'text-right w-10',
-						},
-						tdFocused: {
-							override: 'whitespace-nowrap w-10',
-						},					
-					},
 					headerCell: {
 						th: {
 							append: 'w-10',
@@ -67,14 +47,6 @@
 			title: 'Level',
 			theme: {
 				parts: {
-					dataCell: {
-						td: {
-							append: 'text-right w-24',
-						},
-						tdFocused: {
-							append: 'whitespace-nowrap w-24',
-						},
-					},
 					headerCell: {
 						th: {
 							append: 'w-24',

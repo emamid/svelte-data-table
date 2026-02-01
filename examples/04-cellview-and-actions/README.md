@@ -1,8 +1,8 @@
-# Actions and cell view component example
+# Select cell, rendering function, and custom sort example
 
-The Name column has an ```InputCell``` focus component, while the Dead column has a ```ToggleCell``` view component and the Fingers column has a ```SpinCell``` view component. Editing is implemented via ```cellChanged```. The Actions column has an ```ActionsCell``` as the view component, with delete and info actions (from the pre-made ones). The delete action is enabled only if ```dead === true``` for that row, and will delete that row which clicked. The info action will open a Flowbite ```Modal``` component.
+The Name column has an ```InputCell``` focus component, while the Race and Class columns have ```SelectCell``` focus components. Editing is implemented via the ```cellChanged event```. The Race and Class columns also have ```cellRender``` configs to return the race and class names instead of raceID and cellID, and ```sortFunction``` configs to sort by the names instead of IDs as well.
 
-![](../../screenshot-04.png)
+![](../../screenshot-03.png)
 
 ## Installation
 

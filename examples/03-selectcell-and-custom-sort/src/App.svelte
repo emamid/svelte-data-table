@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DataTable, { InputCell, SelectCell } from '@emamid/svelte-data-table';
 	import type { ColumnConfig, DataCellChangedEvent } from '@emamid/svelte-data-table';
-	
+
 	import { find } from 'lodash';
 
 	import { characters, classes, races, } from '../../data.js';
@@ -17,19 +17,7 @@
 			focusComponent: InputCell,
 			key: 'name',
 			theme: {
-				inputs: {
-					input: {
-						input: {
-							append: 'w-40',
-						},
-					},
-				},
 				parts: {
-					dataCell: {
-						td: {
-							override: 'whitespace-nowrap',
-						},
-					},
 					headerCell: {
 						th: {
 							append: 'w-40',

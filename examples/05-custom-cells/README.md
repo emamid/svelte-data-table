@@ -1,8 +1,8 @@
-# Custom cell component example
+# Select cell, rendering function, and custom sort example
 
-A custom cell component is implemented in ```src/BarCell.svelte```. It fills the cell with a color bar from left to right, width being determined by the data value and ```maxValue``` in the component's config. In the example grid, ```BarCell``` is used as the ```viewComponent``` for the Level column, and ```viewComponentConfig.maxValue``` is set to the maximum ```level``` from all the items in the data.
+The Name column has an ```InputCell``` focus component, while the Race and Class columns have ```SelectCell``` focus components. Editing is implemented via the ```cellChanged event```. The Race and Class columns also have ```cellRender``` configs to return the race and class names instead of raceID and cellID, and ```sortFunction``` configs to sort by the names instead of IDs as well.
 
-![](../../screenshot-05.png)
+![](../../screenshot-03.png)
 
 ## Installation
 

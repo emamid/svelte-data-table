@@ -10,16 +10,21 @@
 		{
 			canSort: true,
 			key: 'name',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'w-40',
+						},						
+					},
+				},
+			},
 			title: 'Name',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
 		},
 		{
 			canSort: true,
 			key: 'level',
 			title: 'Level',
-			thClassAppend: 'text-left w-20',
-			tdClassAppend: 'w-20 py-0',
 			viewComponent: BarCell,
 			viewComponentConfig: {
 				maxValue: maxLevel,
@@ -33,7 +38,6 @@
 		{columns}
 		items={characters}
 		itemKey="id"
-		divClassAppend="h-full"
 		sortKey="name"
 	/>
 </main>

@@ -1,8 +1,8 @@
-# Custom cell component example
+# Select cell, rendering function, and custom sort example
 
-Uses ```trClassGetter``` on the ```DataTable``` component to add a red background class (```bg-red-500```) to rows where ```item.alignment === 'evil'```, and ```tdClassGetter``` on the Name column's config to add a strikethrough decorator (```line-through decoration-wavy```) to the name when ```item.dead === true```.
+The Name column has an ```InputCell``` focus component, while the Race and Class columns have ```SelectCell``` focus components. Editing is implemented via the ```cellChanged event```. The Race and Class columns also have ```cellRender``` configs to return the race and class names instead of raceID and cellID, and ```sortFunction``` configs to sort by the names instead of IDs as well.
 
-![](../../screenshot-06.png)
+![](../../screenshot-03.png)
 
 ## Installation
 

@@ -119,10 +119,10 @@
 	onclose={infoModalClosed}
 >
 	{#if infoItem}
-		<h2>Information about {infoItem?.name}</h2>
+		<div class="text-xl">Information about {infoItem?.name}</div>
 		<p>{infoItem.name} {infoItem.dead ? 'was' : 'is'} a level {infoItem.level}
 			{getRaceName(infoItem)} {getClassName(infoItem)}</p>
-		<button autofocus onclick={hideInfo}>Close</button>
+		<button class="btn btn-primary" autofocus onclick={hideInfo}>Close</button>
 	{/if}
 </dialog>
 <main>

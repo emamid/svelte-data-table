@@ -1,32 +1,26 @@
 <script lang="ts">
-	import {
-		Button,
-		Modal,
-		Textarea,
-	} from 'flowbite-svelte';
-	import {
-		ArrowDownSolid,
-		ArrowUpSolid,
-		MinusSolid,
-		PlusSolid,
-	} from 'flowbite-svelte-icons';
-
 	import DataTable, {
 		ActionsCell,
 		ButtonCell,
+		CheckboxCell,
 		deleteAction,
 		infoAction,
 		InputCell,
 		MultiSelectCell,
 		SelectCell,
 		SpinCell,
-		ToggleCell,
 	} from '@emamid/svelte-data-table';
 	import type {
+		ActionEvent,
+		CellRenderer,
 		ColumnConfig,
-		DataCellClassFunction,
+		DataCellChangedEvent,
+		DataCellEvent,
 		RowClassFunction,
 	} from '@emamid/svelte-data-table';
+
+	import { find } from 'lodash';
+
 	import {
 		books,
 		characters as defaultCharacters,
@@ -40,57 +34,65 @@
 
 	const maxLevel = characters.reduce((previousMax: number, character) => Math.max(previousMax, character.level || 1), 1);
 
-	const crossOutIfDead: DataCellClassFunction = (item, _column, _value, _isFocused, calcClass) => {
-		if (item.dead) {
-			return calcClass + ' line-through decoration-wavy';
+	const getClassName = (item: any) => classes.find(characterClass => characterClass.id === item.classID)?.name || '';
+
+	const getRaceName = (item: any) => races.find(race => race.id === item.raceID)?.name || '';
+
+	const crossOutIfDead: CellRenderer = async(_column, item, _isFocused, calcClass) => {
+		return {					
+			dataValue: item.name,
+			displayValue: item.name,
+			tdClass: calcClass + (item.dead ? ' line-through decoration-wavy' : ''),
 		}
-		return calcClass;
 	}
 
 	const redIfEvil: RowClassFunction = (item, _isFocused, calcClass) => {
-		if (item.alignment === 'evil') {
-			return calcClass + ' bg-red-500';
-		}
-		return calcClass;
-	}
-
-	const getClassName = (character: Character | null) => character ? classes.find(characterClass => characterClass.id === character.classID)?.name || '' : '';
-
-	const getRaceName = (character: Character | null) => character ? races.find(race => race.id === character.raceID)?.name || '' : '';
+		return calcClass + (item.alignment === 'evil' ? ' bg-red-500' : '');
+	}	
 
 	const columns: ColumnConfig[] = [
 		{
 			title: 'Actions',
-			thClassAppend: 'text-left w-5',
-			tdClassAppend: 'w-5',
 			viewComponent: ActionsCell,
 			viewComponentConfig: {
 				actions: [
 					{
 						...deleteAction,
-						isDisabled: (character: Character) => !character.dead,
+						isDisabled: (item: any) => !item.dead,
 					},
 					infoAction,
 				]
 			},
 		},
 		{
-			canSort: true,
-			key: 'name',
-			title: 'Name',
-			thClassAppend: 'text-left w-40',
-			tdClassAppend: 'w-40',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-40 px-4',
-			focusComponent: InputCell,
 			canFocus: true,
-			tdClassGetter: crossOutIfDead,
+			canSort: true,
+			cellRenderer: crossOutIfDead,
+			focusComponent: InputCell,
+			key: 'name',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'w-40',
+						},						
+					},
+				},
+			},
+			title: 'Name',
 		},
 		{
 			key: 'raceID',
 			title: 'Race',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'min-w-[8em]',
+						},
+					},
+				},
+			},
 			focusComponent: SelectCell,
 			focusComponentConfig: {
 				items: races,
@@ -101,16 +103,22 @@
 					displayValue: getRaceName(item),
 				}
 			},
-			sortFunction: (a: Character, b: Character) => getRaceName(a).localeCompare(getRaceName(b)),
+			sortFunction: (a: any, b: any) => getRaceName(a).localeCompare(getRaceName(b)),
 			canFocus: true,
 			canSort: true,
 		},
 		{
 			key: 'classID',
 			title: 'Class',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10',
-			tdFocusedClassOverride: 'whitespace-nowrap font-medium w-10 px-4',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'min-w-[8em]',
+						},
+					},
+				},
+			},
 			focusComponent: SelectCell,
 			focusComponentConfig: {
 				items: classes,
@@ -121,24 +129,29 @@
 					displayValue: getClassName(item),
 				}
 			},
-			sortFunction: (a: Character, b: Character) => getClassName(a).localeCompare(getClassName(b)),
+			sortFunction: (a: any, b: any) => getClassName(a).localeCompare(getClassName(b)),
 			canFocus: true,
 			canSort: true,
 		},
 		{
 			canSort: true,
 			key: 'dead',
+			theme: {
+				parts: {
+					headerCell: {
+						th: {
+							append: 'w-10',
+						},						
+					},
+				},
+			},
 			title: 'Dead',
-			thClassAppend: 'text-left w-2',
-			tdClassAppend: 'w-2',
-			viewComponent: ToggleCell,
+			viewComponent: CheckboxCell,
 		},
 		{
 			canSort: true,
 			key: 'fingers',
 			title: 'Fingers',
-			thClassAppend: 'text-center w-4',
-			tdClassAppend: 'w-4',
 			viewComponent: SpinCell,
 			viewComponentConfig: {
 				minValue: 0,
@@ -149,22 +162,16 @@
 			canSort: true,
 			key: 'level',
 			title: 'Level',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10 py-0',
 			viewComponent: BarCell,
 			viewComponentConfig: {
 				maxValue: maxLevel,
-			},
-			sortAscendingIcon: PlusSolid,
-			sortDescendingIcon: MinusSolid,
+			}
 		},
 		{
 			canFocus: true,
 			canSort: true,
 			key: 'seenIn',
 			title: 'Seen In',
-			thClassAppend: 'text-left w-10',
-			tdClassAppend: 'w-10 py-0',
 			focusComponent: MultiSelectCell,
 			focusComponentConfig: {
 				items: books,
@@ -180,81 +187,113 @@
 		{
 			key: 'notes',
 			title: 'Notes',
-			thClassAppend: 'text-left w-5',
-			tdClassAppend: 'w-5 py-0',
 			viewComponent: ButtonCell,
 			viewComponentConfig: {
 				caption: 'Edit',
-			}
-		}
+			},
+		},
 	]
 
-	let infoModalVisible: boolean = false;
 	let infoItem: Character | null = null;
-	let noteModalVisible: boolean = false;
-	let noteItem: Character | null = null;
+	let infoModal: HTMLDialogElement;
+	let notesItem: Character | null = null;
+	let notesModal: HTMLDialogElement;
 
 	const deleteItem = (itemToDelete: Character) => {
 		characters = characters.filter(item => item !== itemToDelete);
 	}
 
+	const hideInfo = () => {
+		infoModal.close();
+	}		
+
+	const hideNotes = () => {
+		notesModal.close();
+	}		
+
+	const infoModalClosed = () => {
+		infoItem = null;
+	}
+
+	const notesModalClosed = () => {
+		notesItem = null;
+	}
+
 	const showInfo = (item: Character) => {
 		infoItem = item;
-		infoModalVisible = true;
+		infoModal.showModal();
 	}
 
 	const showNotes = (item: Character) => {
-		noteItem = item;
-		noteModalVisible = true;
+		notesItem = item;
+		notesModal.showModal();
 	}
 
-	const action = (event: CustomEvent) => {
-		const { action, item } = event.detail;
-		if (action === 'info') {
+	const action = (event: ActionEvent) => {
+		const { action, item } = event;
+		if (action.name === 'info') {
 			showInfo(item);
 		}
-		if (action === 'delete') {
+		if (action.name === 'delete') {
 			deleteItem(item);
 		}
-	}
+	};
 
-	const cellChanged = (event: CustomEvent) => {
-		const { item, column, newValue } = event.detail;
-		const { key } = column;
-		(characters[characters.indexOf(item)] as any)[key] = newValue;
-	}
-
-	const cellClicked = (event: CustomEvent) => {
-		const { item, column } = event.detail;
-		const { key } = column;
+	const buttonClicked = (event: DataCellEvent) => {
+		const { column: { key }, item } = event;
 		if (key === 'notes') {
 			showNotes(item);
 		}
-	}
+	};
+
+	const cellChanged = (event: DataCellChangedEvent) => {
+		const { column, item, newValue } = event;
+		const { key } = column;
+		if (typeof key === 'string') {
+			const targetItem = find(characters, { id: item.id }) as any;
+			if (targetItem) {
+				targetItem[key] = newValue;
+			}
+		}
+	};
 </script>
 
+<dialog
+	bind:this={infoModal}
+	class="flex flex-col items-center p-4"
+	class:hidden={!infoItem}
+	closedby="any"
+	onclose={infoModalClosed}
+>
+	{#if infoItem}
+		<div class="text-xl">Information about {infoItem?.name}</div>
+		<p>{infoItem.name} {infoItem.dead ? 'was' : 'is'} a level {infoItem.level}
+			{getRaceName(infoItem)} {getClassName(infoItem)}</p>
+		<button class="btn btn-primary" autofocus onclick={hideInfo}>Close</button>
+	{/if}
+</dialog>
+<dialog
+	bind:this={notesModal}
+	class="flex flex-col items-center p-4"
+	class:hidden={!notesItem}
+	closedby="any"
+	onclose={notesModalClosed}
+>
+	{#if notesItem}
+		<div class="text-xl">Notes for {notesItem?.name}</div>
+		<textarea class="textarea textarea-ghost" bind:value={notesItem.notes} autofocus rows={10}></textarea>
+		<button class="btn btn-primary" onclick={hideNotes}>Close</button>
+	{/if}
+</dialog>
 <main>	
-	<Modal title="Information about {infoItem?.name}" bind:open={infoModalVisible} autoclose outsideclose>
-		<p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">{infoItem?.name} {infoItem?.dead ? 'was' : 'is'} a level {infoItem?.level}
-			 {getRaceName(infoItem)} {getClassName(infoItem)}</p>
-	</Modal>		
-	<Modal title="Notes for {noteItem?.name}" bind:open={noteModalVisible} autoclose outsideclose>
-		{#if noteItem}
-		<Textarea bind:value={noteItem.notes} rows={10}/>
-		{/if}
-		<Button on:click={() => noteModalVisible = false}>Close</Button>
-	</Modal>		
 	<DataTable
 		{columns}
-		divClassAppend="h-full"
 		items={characters}
 		itemKey="id"
 		trClassGetter={redIfEvil}
 		sortKey="name"
-		sortAscendingIcon={ArrowDownSolid}
-		sortDescendingIcon={ArrowUpSolid}
-		on:action={action}
-		on:cellChanged={cellChanged}
-		on:cellClicked={cellClicked}
+		onaction={action}
+		onbutton={buttonClicked}
+		oncellchanged={cellChanged}
 	/>
 </main>

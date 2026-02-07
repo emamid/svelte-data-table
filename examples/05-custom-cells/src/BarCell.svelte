@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ColumnConfig } from './lib';
+	import type { ColumnConfig } from '@emamid/svelte-data-table'
 
 	interface Props {
 		column: ColumnConfig;

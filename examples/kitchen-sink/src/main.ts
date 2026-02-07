@@ -1,8 +1,13 @@
-import './app.pcss';
-import App from './App.svelte';
+import { mount } from 'svelte'
+import './app.css'
+import App from './App.svelte'
 
-const app = new App({
-	target: document.getElementById('app'),
-});
+import { defaultTheme, daisyUITheme, iconifyTheme, setActiveTheme } from '@emamid/svelte-data-table'
 
-export default app;
+setActiveTheme([defaultTheme, daisyUITheme, iconifyTheme]);
+
+const app = mount(App, {
+  target: document.getElementById('app')!,
+})
+
+export default app

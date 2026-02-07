@@ -70,7 +70,6 @@
 	let characters = [...defaultCharacters];
 
 	let infoModal: HTMLDialogElement;
-	let infoModalVisible: boolean = false;
 	let infoItem: any = null;
 
 	const action = (event: ActionEvent) => {
@@ -82,7 +81,6 @@
 			deleteItem(item);
 		}
 	};
-
 
 	const cellChanged = (event: DataCellChangedEvent) => {
 		const { column, item, newValue } = event;
@@ -109,13 +107,19 @@
 
 	const showInfo = (item: any) => {
 		infoItem = item;
-		infoModalVisible = true;
 		infoModal.showModal();
 	}
 </script>
 
-<dialog bind:this={infoModal} class="flex flex-col items-center p-4" closedby="any" onclose={infoModalClosed}>
+<dialog
+	bind:this={infoModal}
+	class="flex flex-col items-center p-4"
+	class:hidden={!infoItem}
+	closedby="any"
+	onclose={infoModalClosed}
+>
 	{#if infoItem}
+		<h2>Information about {infoItem?.name}</h2>
 		<p>{infoItem.name} {infoItem.dead ? 'was' : 'is'} a level {infoItem.level}
 			{getRaceName(infoItem)} {getClassName(infoItem)}</p>
 		<button autofocus onclick={hideInfo}>Close</button>

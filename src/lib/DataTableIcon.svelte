@@ -2,7 +2,7 @@
 	import type { Component } from 'svelte';
 	import Icon from '@iconify/svelte';
 
-	import type { IconifyProps, IconProp } from './common.js';
+	import type { IconifyProps, IconProp } from './common';
 
 	interface Props {
 		classes?: string;

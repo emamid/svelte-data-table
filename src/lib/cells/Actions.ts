@@ -1,4 +1,4 @@
-import type { Action } from '../common.js';
+import type { Action } from '../common';
 
 /**
  * @constant bookmarkAction

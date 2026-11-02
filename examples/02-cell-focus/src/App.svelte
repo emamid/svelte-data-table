@@ -4,7 +4,7 @@
 	
 	import { find } from 'lodash';
 
-	import { characters } from '../../data.js';
+	import { characters } from '../../data';
 
 	const columns: ColumnConfig[] = [
 		{

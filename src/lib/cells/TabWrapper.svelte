@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ColumnConfig, DataCellEvent } from '../common.js';
+	import type { ColumnConfig, DataCellEvent } from '../common';
 
 	interface Props {
 		item: any;

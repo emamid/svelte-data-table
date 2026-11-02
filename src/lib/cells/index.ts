@@ -1,4 +1,4 @@
-export * from './Actions.js';
+export * from './Actions';
 export * from './ActionsCell.svelte';
 export { default as ActionsCell } from './ActionsCell.svelte';
 export * from './ButtonCell.svelte';

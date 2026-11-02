@@ -26,8 +26,8 @@
 		characters as defaultCharacters,
 		classes,
 		races,
-	} from '../../data.js';
-	import type { Character } from '../../data.js';
+	} from '../../data';
+	import type { Character } from '../../data';
 	import BarCell from './BarCell.svelte';
 
 	let characters = [...defaultCharacters];

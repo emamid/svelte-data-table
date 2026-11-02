@@ -1,4 +1,4 @@
-import type { DataTableTheme } from '../common.js'
+import type { DataTableTheme } from '../common';
 
 export const iconifyTheme: DataTableTheme = {
 	inputs: {

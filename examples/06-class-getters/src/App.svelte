@@ -4,7 +4,7 @@
 
 	import { find } from 'lodash';
 
-	import { characters, classes, races, } from '../../data.js';
+	import { characters, classes, races, } from '../../data';
 
 	const getClassName = (item: any) => classes.find(characterClass => characterClass.id === item.classID)?.name || '';
 

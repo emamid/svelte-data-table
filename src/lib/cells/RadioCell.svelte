@@ -3,12 +3,12 @@
 	import {
 		getDataTableContext,
 		joinInputClasses,
-	} from '../common.js';
+	} from '../common';
 	import type {
 		ColumnConfig,
 		DataCellChangedEvent,
-	} from '../common.js';
-	import { activeTheme } from '../themes/active.js';
+	} from '../common';
+	import { activeTheme } from '../themes/active';
 
 	interface Props {
 		column: ColumnConfig;

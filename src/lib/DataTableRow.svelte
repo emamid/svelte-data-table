@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { activeTheme } from './themes/active.js';
+	import { activeTheme } from './themes/active';
 	import DataTableDataCell from './DataTableDataCell.svelte';
 	import {
 		evalRowDropBoolean,
@@ -7,7 +7,7 @@
 		getColumnID,
 		getDataTableContext,
 		joinPartClasses,
-	} from './common.js';
+	} from './common';
 	import type {
 		ActionEvent,
 		ColumnConfig,
@@ -22,7 +22,7 @@
 		RowDropBoolean,
 		RowDropEvent,
 		RowEvent,
-	} from './common.js';
+	} from './common';
 
 	interface Props {
 		allowRowDrag: RowBoolean;

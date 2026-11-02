@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DataTable from '@emamid/svelte-data-table';
 	import type { ColumnConfig } from '@emamid/svelte-data-table';
-	import { characters } from '../../data.js';
+	import { characters } from '../../data';
 	import BarCell from './BarCell.svelte';
 
 	let maxLevel = characters.reduce((previousMax: number, character) => Math.max(previousMax, character.level || 1), 1);

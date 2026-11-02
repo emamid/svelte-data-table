@@ -8,4 +8,6 @@ export default defineConfig({
 		svelte(),
 		tailwindcss(),
 	],
+	// Use this app's tsconfig. The repo root config extends SvelteKit's generated $app/tsconfig.
+	tsconfig: './tsconfig.app.json',
 })
